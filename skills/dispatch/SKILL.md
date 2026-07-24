@@ -1,3 +1,8 @@
+---
+name: hive-dispatch
+description: Reactive dispatcher — polls GH Discussions, has enabled agents react and turn insights into tracked issues
+---
+
 # dispatch — Reactive Event Dispatcher
 
 ## When to Use
@@ -34,9 +39,11 @@ A discussion needs processing when:
 
 ## Procedure
 
-### Step 1: Load State
+### Step 1: Load State + Config
 
 Read `.claude/hive/dispatcher-state.json`. If it doesn't exist, create it with `{"processed": {}}`.
+
+Read `.claude/hive/config.json` for `repo`, `discussions.repo_id`, `discussions.category_ids`, and `agents` (which agents are enabled). **Only enabled agents may be dispatched** — filter every routing/authority table below accordingly.
 
 ### Step 2: Fetch Recent Discussions
 
@@ -56,7 +63,7 @@ If nothing to process → exit silently.
 
 ### Step 4: Route to Agents
 
-For each unprocessed discussion, check its category:
+For each unprocessed discussion, check its category (drop any agent not enabled in config.json; if a category ends up with no enabled agents, skip it):
 
 ```
 #architecture    → Architect, Scale Chief
@@ -67,7 +74,7 @@ For each unprocessed discussion, check its category:
 #incidents       → Obs Chief, DevOps, CTO
 #customer        → CS Lead, Account Mgr, Product Chief
 #ops             → DevOps, Obs Chief
-#research        → Data Analyst, Sr AI
+#research        → Data Analyst, Sr AI, Scout
 #decisions       → Architect, Sec Chief, Scale Chief
 #roadmap         → Product Chief, Scrum Master
 #daily-standup   → NO REACTION
@@ -79,9 +86,9 @@ For each unprocessed discussion, check its category:
 
 ### Step 5: Comment as Each Agent
 
-For each triggered agent, adopt their persona and produce a comment.
+For each triggered agent, adopt their persona (see their `AGENT.md` under `{HIVE_ROOT}/agents/`) and produce a comment.
 
-Agent perspectives:
+Agent perspectives (enabled agents only):
 - **CTO**: strategic trade-offs, maturity-stage fit, priority impact
 - **Architect**: DDD patterns, layer boundaries, bounded context concerns
 - **Sec Chief**: attack vectors, OWASP, auth implications
