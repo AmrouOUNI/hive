@@ -84,6 +84,7 @@ Maintain team velocity and flow by running ceremonies, detecting blockers, and e
 4. Sprint goals — from last `#decisions` or `#daily-standup` post
 5. `.claude/hive/context/scrum-master.md` — own state, velocity data
 6. CTO dispatch orders — for sprint scope context
+7. The workflow framework's registry if configured (`config.json.workflow.tracker`, e.g. a Conductor `tracks.md`) — accepted/in-flight work, via `capability:feature-development (status mode)`
 
 ## Outputs
 

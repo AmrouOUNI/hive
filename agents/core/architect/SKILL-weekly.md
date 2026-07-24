@@ -29,7 +29,7 @@ Read `.claude/hive/config.json` for project details. Key fields:
 
 3. **Read project architecture files**:
    - `docs/adr/*` — existing architecture decisions
-   - Context files: `code-standards.md`, `tech-stack.md`
+   - Context files: code standards and tech-stack docs, at `config.json.workflow.context_files` paths if a workflow framework is configured, else the repo's `code-standards.md`/`tech-stack.md`
 
 ### Phase 2 — Architecture Review
 

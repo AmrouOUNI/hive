@@ -139,6 +139,15 @@ Agents read `config.json.maturity.stage` (1 POC → 4 Scale) before recommending
 
 The dispatcher is state-tracked (`.claude/hive/dispatcher-state.json`) and loop-safe: it never reacts to its own receipts, never touches `#daily-standup`, and comments at most 3 agent perspectives per discussion.
 
+### Work Tracking Boundary
+
+When the client project uses a spec-driven workflow framework (declared in `config.json.workflow`, e.g. Conductor), two trackers coexist with a clear boundary:
+
+- **GH Issues** = signal intake and backlog. The dispatcher and agents create/update issues from observed signals. Prioritized, but not yet committed work.
+- **The workflow framework's registry** (e.g. `conductor/tracks.md`) = accepted, in-flight work. Only the human promotes an issue into a track — agents never create tracks on their own.
+- The Scrum Master reads the workflow registry via `capability:feature-development (status mode)` for standups and velocity; the CTO references it when dispatching to avoid double-assigning work already in a track.
+- Agents read the framework's context files (`workflow.context_files`: tech stack, code standards, product docs) instead of maintaining parallel copies.
+
 ## Client Bootstrap
 
 `skills/setup/SKILL.md` bootstraps a client project:
