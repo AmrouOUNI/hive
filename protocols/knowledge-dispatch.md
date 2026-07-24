@@ -1,6 +1,6 @@
 # Knowledge Dispatch — System Design Report
 
-Maps the 10 system design domains to hive agents. Each agent absorbs the concepts relevant to their role, filtered through the project's maturity stage.
+Maps the 11 system design domains to hive agents. Each agent absorbs the concepts relevant to their role, filtered through the project's maturity stage.
 
 ## Dispatch Matrix
 
@@ -142,12 +142,27 @@ Maps the 10 system design domains to hive agents. Each agent absorbs the concept
 | Data privacy (GDPR, encryption, PII handling) | **Sec Chief** | CTO | Sec Chief enforces, CTO decides business compliance level |
 | Penetration testing and red teaming | **Sec Chief** | — | Core sec-chief skill |
 
+### Domain 11: Frontend Architecture
+
+| Concept | Primary owner | Secondary | Why |
+|---------|--------------|-----------|-----|
+| Feature-Sliced Design (layers, slices, public APIs, import direction) | **Architect** | Sr Backend / builder | Architect owns the structure, the builder implements within it |
+| Frontend/backend contract design (API shape as seen from the UI) | **Architect** | Sr Backend | Same contract discipline as API design, viewed from the consumer side |
+| State management strategy (server-state vs client-state, store scope) | **Architect** | Builder | Architectural decision with long coupling consequences |
+| Design system & token architecture | **Architect** | DevRel, Product Chief | Architect owns structure/versioning; DevRel documents; Product owns brand needs |
+| Micro-frontend decision | **CTO** | Architect | Same strategic bar as microservices — org need, not tech appetite |
+| Web performance budgets (Core Web Vitals, bundle size) | **Scale Chief** | Architect | Scale Chief monitors and tunes; Architect designs the budgets and code-splitting seams |
+| Frontend security (XSS, CSP, dependency supply chain) | **Sec Chief** | Builder | Security domain applied to the browser |
+| Component & E2E testing strategy | **QA Lead** | Architect | QA owns the pyramid; Architect ensures testability of the structure |
+| Accessibility baseline | **QA Lead** | DevRel | Quality gate with documentation implications |
+| SSR/edge rendering decision | **Architect** | DevOps, CTO | Rendering topology is architecture; DevOps runs it; CTO validates cost |
+
 ## Summary: Who Owns What
 
 | Agent | Primary domains | Key concepts |
 |-------|----------------|-------------|
 | **CTO** | 1 (strategy), 7 (monolith decision), 8 (SLOs/error budgets) | Scale-up vs scale-out timing, microservice decision, SLA targets, error budget management, data lifecycle, compliance level |
-| **Architect** | 1 (patterns), 2 (modeling), 3 (caching), 4 (APIs), 5 (distributed), 6 (messaging), 7 (decomposition), 8 (degradation) | The heaviest knowledge load — Architect owns architectural patterns across 8 of 10 domains |
+| **Architect** | 1 (patterns), 2 (modeling), 3 (caching), 4 (APIs), 5 (distributed), 6 (messaging), 7 (decomposition), 8 (degradation), 11 (frontend architecture) | The heaviest knowledge load — Architect owns architectural patterns across 9 of 11 domains, backend and frontend |
 | **Sec Chief** | 10 (full ownership), 4 (auth) | Full ownership of security domain + auth/API security from networking |
 | **Obs Chief** | 9 (full ownership), 8 (chaos/deploy validation) | Full ownership of observability + reliability monitoring |
 | **DevOps** | 1 (load balancing, CDN, auto-scaling), 2 (replication, backups), 4 (gateway, DNS), 7 (service mesh), 8 (deployments, DR) | Infrastructure execution across most domains |
@@ -162,6 +177,6 @@ Maps the 10 system design domains to hive agents. Each agent absorbs the concept
 
 ## Key Insight: The Architect Is the Knowledge Hub
 
-The Architect touches 8 of 10 domains. This confirms why the Architect agent needs deep capability access (`capability:design-review`, `capability:architecture-decision`, `capability:feature-development` in review mode) — every design decision passes through architectural judgment.
+The Architect is transverse: 9 of 11 domains, from aggregate design to FSD slice boundaries. This confirms why the Architect agent needs deep capability access (`capability:design-review`, `capability:architecture-decision`, `capability:feature-development` in review mode) — every design decision passes through architectural judgment.
 
 But the **CTO filters through maturity stage**. The Architect might say "we need sharding." The CTO says "we have a handful of tenants — we need sharding in 2 years, not now."

@@ -151,7 +151,7 @@ hive/
 │   ├── infra/             deploy, rollback, backup-verify, audits, ci-monitor, smoke-test
 │   ├── qa/                coverage-audit, acceptance-check, regression-scan
 │   ├── research/          market-scan, competitor-track, trend-detect, …
-│   ├── architecture/      dependency-map, bounded-context-audit
+│   ├── architecture/      dependency-map, bounded-context-audit, frontend-boundary-audit
 │   └── optional/          product, innovation, customer, account, support, data, ai, performance
 └── protocols/
     ├── communication.md   message format, threading, rate limits
