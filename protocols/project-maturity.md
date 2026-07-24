@@ -19,6 +19,7 @@ Every hive decision is filtered through the project's maturity stage. A CTO mana
 | Reliability | No SLOs. Manual recovery. Minutes of downtime OK. | No backups |
 | Observability | Console logs + a basic error tracker. No dashboards. | No error tracking at all |
 | Security | Basic auth. Tenant-level data isolation on key tables. | Exposed secrets, no auth, SQL injection |
+| Frontend | Single SPA. Flat `features/` folders — full FSD is premature. Off-the-shelf component library, no design system. No SSR unless SEO is the product. Type safety from day one. | Untyped codebase, `any` everywhere, business logic scattered in components |
 
 **CTO rule:** Approve anything that ships faster. Block only security basics and data safety.
 
@@ -37,6 +38,7 @@ Every hive decision is filtered through the project's maturity stage. A CTO mana
 | Reliability | Basic SLOs (99.5% uptime). Automated backups. Health checks. | No monitoring, no backup verification |
 | Observability | Structured logging. Error tracking. Basic metrics dashboard. | Alert fatigue (too many alerts) |
 | Security | Full auth flow. Tenant isolation on all data access. Dependency audits. Secret scanning. | Unaudited dependencies |
+| Frontend | Adopt **Feature-Sliced Design**: `app / pages / widgets / features / entities / shared`, imports flow downward only. Server-state via a dedicated data-fetching layer; local state stays local — no global store sprawl. Shared UI kit extracted from real duplication (not designed up front). Component tests on critical flows. | Cross-slice imports upward, business logic in UI components, a second competing state pattern |
 
 **CTO rule:** Balance speed with stability. Start measuring. Fix what breaks users.
 
@@ -55,6 +57,7 @@ Every hive decision is filtered through the project's maturity stage. A CTO mana
 | Reliability | 99.9% SLO. Error budgets. Canary deployments. Feature flags. | Deploying to all users simultaneously |
 | Observability | Full three pillars (logs, metrics, traces). Anomaly detection. Runbooks. | Flying blind on any dimension |
 | Security | OWASP Top 10 compliance. Pentest-light. Zero trust principles started. | Known CVEs unpatched > 7 days |
+| Frontend | FSD boundaries enforced by lint rules (import direction, public API per slice). Design system versioned with tokens. Route-level code splitting, performance budgets on Core Web Vitals. Accessibility baseline (keyboard, contrast, semantics). E2E on critical journeys in CI. | Unbounded bundle growth, no web-perf monitoring, lint-unenforced boundaries |
 
 **CTO rule:** Invest in foundations. Technical debt from Stage 1-2 must be paid now.
 
@@ -73,6 +76,7 @@ Every hive decision is filtered through the project's maturity stage. A CTO mana
 | Reliability | 99.99% SLO. Chaos engineering. Disaster recovery tested quarterly. | Untested DR plans |
 | Observability | SLO-based alerting. Distributed tracing mandatory. Automated anomaly detection. | Alert noise > 10% false positives |
 | Security | Full zero trust. Regular pentests. SOC 2 compliance. Supply chain security. | Any unpatched critical CVE |
+| Frontend | Micro-frontends ONLY if multiple teams demand independent deploys (same bar as microservices). Multi-brand theming via design tokens. SSR/edge rendering where measured. Full a11y compliance. Visual regression tests. | Micro-frontends without an org-level need, untested visual changes |
 
 **CTO rule:** Every decision has a business case. No over-engineering, no under-engineering.
 

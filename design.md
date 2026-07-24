@@ -60,7 +60,7 @@ Agents never call project tools or name concrete skills. They invoke abstract ca
 | Role | Codename | Mission | Cadence |
 |---|------|----------|---------|
 | CTO | `cto` | Strategic decisions, conflict resolution, roadmap, dispatch | daily + weekly |
-| Architect | `architect` | Design integrity, bounded contexts, ADR governance | weekly |
+| Architect | `architect` | Transverse design integrity — bounded contexts (backend), Feature-Sliced Design (frontend), ADR governance | weekly |
 | Sec Chief | `sec-chief` | Deps, auth, data exposure, secret scanning | daily + monthly |
 | Obs Chief | `obs-chief` | Prod health — errors, usage, anomalies, incident triage | daily |
 | DevOps | `devops` | Deploys, backups, CI/CD, uptime, infra health | weekly |
