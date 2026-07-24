@@ -183,6 +183,7 @@ gh project item-add {project_number} --owner {owner} --url {issue_url}
 - Default priority: P2 (unless security → P0)
 - Default size: needs estimation
 - Body must include: signal source, evidence, proposed scope
+- If `capability:ticket-authoring` is mapped in `.claude/hive/skills-map.json`, follow its OUTPUT CONTRACT for the body — numbered acceptance criteria (EARS / Given-When-Then), Definition of Done, and open questions as explicit `[NEEDS CLARIFICATION: …]` markers. You run unattended: apply the contract's structure, skip the provider's interactive phases; anything you'd have asked becomes a marker for the human to resolve before promoting the issue.
 
 #### C. Propose priority change
 When 3+ users mention the same need, or a signal is urgent:

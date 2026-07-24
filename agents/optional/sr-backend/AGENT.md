@@ -46,7 +46,8 @@ Implement features and fixes with TDD discipline, in isolated worktrees, followi
 
 | Skill | When |
 |-------|------|
-| `capability:feature-development` | Primary workflow — TDD implementation from plan.md through evidence-based completion |
+| `capability:ticket-implementation` | Primary workflow — dispatched work item to PR: spec → plan → human plan approval → TDD → review → PR |
+| `capability:feature-development` (implement mode) | Fallback when ticket-implementation is unmapped — TDD implementation from plan.md through evidence-based completion |
 | `capability:debug` | Bug investigation and fix when dispatched |
 | `capability:code-review` | Review own or others' code before merge |
 | `capability:refactor` | Identify and execute safe refactorings |

@@ -114,7 +114,9 @@ Write `.claude/hive/skills-map.json`:
     "design-review": "{…}",
     "standup-summary": "{…}",
     "deploy-checklist": "{…}",
-    "feature-development": "{…}"
+    "feature-development": "{…}",
+    "ticket-authoring": "{…}",
+    "ticket-implementation": "{…}"
   }
 }
 ```
@@ -122,6 +124,8 @@ Write `.claude/hive/skills-map.json`:
 Show the mapping to the user for confirmation — they know their environment best. `null` is fine: agents fall back to the guidance in `capabilities.md`.
 
 If Step 2b detected a workflow framework whose skills are installed, use the **object (mode-mapping) form** for `feature-development` — see `protocols/capabilities.md` for the format and a Conductor example.
+
+**Companion skills**: if `ticket-authoring` or `ticket-implementation` resolve to nothing, hive ships reference providers in `{HIVE_ROOT}/skills/companion/` (`write-ticket`, `implement-ticket`). Offer to install them — preferred: symlink into `~/.claude/skills/` (stays in sync with the hive repo); alternative: copy into the project's `.claude/skills/`. On acceptance, install, then map the capabilities to them.
 
 ### Step 6: GitHub Discussions
 

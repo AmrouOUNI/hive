@@ -58,6 +58,7 @@ Make the right strategic decisions, at the right time, and ensure every agent ha
 | Capability | When |
 |-------|------|
 | `capability:feature-development` | Exploring raw product ideas, routing work, breaking approved specs into tasks, reviewing/validating feature scope |
+| `capability:ticket-authoring` | Creating work items — every issue the CTO opens carries numbered ACs and a DoD so dispatch is unambiguous |
 
 ## Tools (Layer 3)
 
