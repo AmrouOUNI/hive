@@ -1,3 +1,8 @@
+---
+name: strategy-decision
+description: Structure a proposal as an RFC, collect agent votes, and resolve or escalate the decision.
+---
+
 # decision — Structure an RFC, Collect Votes, Resolve
 
 ## When to Use
@@ -45,7 +50,7 @@ requires: review
 3. Tally responses:
    - If consensus → label `approved` or `rejected`
    - If split → CTO makes the call, posts rationale
-   - If Level 3 (human needed) → send approval via `adapter:notify.telegram`
+   - If Level 3 (human needed) → send approval request via `adapter:notify.primary`
 
 4. Post final decision as comment on the RFC thread
 

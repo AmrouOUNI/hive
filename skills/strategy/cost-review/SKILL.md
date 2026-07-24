@@ -1,3 +1,8 @@
+---
+name: strategy-cost-review
+description: Weekly and monthly review of all service costs — LLM usage, hosting, database, external services — with trend comparison and overrun flags.
+---
+
 # cost-review — Review All Costs
 
 ## When to Use
@@ -11,10 +16,10 @@ CTO runs this weekly (during sprint planning) and monthly (roadmap review).
 
 1. Collect cost data:
    - Claude Code scheduled tasks (API usage)
-   - OpenAI API (Gotchi's enrichment + conversation)
-   - Railway hosting
-   - Supabase (DB + Storage + Auth)
-   - External services (Tavily, Deepgram, etc.)
+   - LLM APIs consumed by the product (if any)
+   - Hosting
+   - Database, storage, auth
+   - External services (per the service list in `.claude/hive/config.json`)
 
 2. Compare to last period
 
@@ -37,12 +42,11 @@ requires: info
 
 | Service | Daily Avg | Previous | Delta | Status |
 |---------|-----------|----------|-------|--------|
-| OpenAI (Gotchi) | ${n} | ${n} | {%} | {emoji} |
 | Claude Code (Hive) | ${n} | ${n} | {%} | {emoji} |
-| Railway | ${n} | ${n} | {%} | {emoji} |
-| Supabase | ${n} | ${n} | {%} | {emoji} |
-| Tavily | ${n} | ${n} | {%} | {emoji} |
-| Deepgram | ${n} | ${n} | {%} | {emoji} |
+| LLM APIs (product) | ${n} | ${n} | {%} | {emoji} |
+| Hosting | ${n} | ${n} | {%} | {emoji} |
+| Database | ${n} | ${n} | {%} | {emoji} |
+| {external service} | ${n} | ${n} | {%} | {emoji} |
 | **Total** | **${n}** | **${n}** | **{%}** | |
 
 ### Flags

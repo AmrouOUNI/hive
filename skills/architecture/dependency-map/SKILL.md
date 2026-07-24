@@ -1,10 +1,15 @@
+---
+name: architecture-dependency-map
+description: Map and audit module dependencies against the bounded context map, flagging new cross-module couplings.
+---
+
 # dependency-map — Map and Audit Module Dependencies
 
 ## When to Use
 Architect uses this during the weekly BC audit or when reviewing a significant feature that may introduce new cross-module dependencies.
 
 ## Inputs
-- `agents/architect/context.md` — bounded context map, known dependency baselines
+- `.claude/hive/context/architect.md` — bounded context map, known dependency baselines
 - Codebase import statements and module configuration
 - Nx project graph (if available)
 
@@ -65,11 +70,11 @@ requires: {info | action}
 {numbered list of fixes, prioritized by severity}
 ```
 
-7. **Update baseline** — Write current dependency map to `agents/architect/context.md`.
+7. **Update baseline** — Write current dependency map to `.claude/hive/context/architect.md`.
 
 ## Output Format
 - Dependency report posted to `#architecture`
-- Updated baselines in `agents/architect/context.md`
+- Updated baselines in `.claude/hive/context/architect.md`
 
 ## Rules
 - Zero tolerance for domain -> infrastructure imports — always critical

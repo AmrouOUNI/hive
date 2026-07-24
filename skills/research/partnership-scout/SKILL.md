@@ -1,7 +1,12 @@
+---
+name: research-partnership-scout
+description: Identify and score potential integration partners during deep scan cycles.
+---
+
 # partnership-scout — Scout Integration Partners
 
 ## When to Use
-Scout uses this during deep scan cycles. Identifies and evaluates potential integration partners that could extend gotchi's capabilities or reach.
+Scout uses this during deep scan cycles. Identifies and evaluates potential integration partners that could extend the product's capabilities or reach.
 
 ## Inputs
 - Product roadmap and feature backlog (from `#roadmap`)
@@ -11,10 +16,10 @@ Scout uses this during deep scan cycles. Identifies and evaluates potential inte
 
 ## Procedure
 
-1. Identify partner categories relevant to gotchi: CRMs, enrichment APIs, communication platforms, ATS systems, calendar tools, analytics services
+1. Identify partner categories relevant to the product (from the roadmap, current integrations, and user integration requests)
 2. For each candidate partner, research:
    - **What they do** — core product and API capabilities
-   - **User overlap** — do their users match gotchi's target audience?
+   - **User overlap** — do their users match the product's target audience?
    - **Technical compatibility** — REST/GraphQL API, webhook support, auth model, rate limits
    - **Business model alignment** — free tier available, partner program, pricing model
 3. Score opportunity 1-5:
@@ -38,7 +43,7 @@ requires: review
 ## Partnership Scout — {date}
 
 ### Partner: {name}
-- **Category**: {CRM / enrichment / communication / etc.}
+- **Category**: {partner category}
 - **What they do**: {one-sentence summary}
 - **User Overlap**: {high / moderate / low} — {explanation}
 - **Technical Compatibility**: {API quality, auth model, limitations}
@@ -58,4 +63,4 @@ Single post to `#research` in the template above. Multiple partners can be in on
 - Always check if the partner is already integrated or on the backlog before reporting
 - Technical compatibility must include API quality — "they have an API" is not enough detail
 - Score reflects total opportunity, not just one dimension
-- "Pursue" recommendations should include a suggested first step (e.g., "test their enrichment API with sample data")
+- "Pursue" recommendations should include a suggested first step (e.g., "test their API with sample data")

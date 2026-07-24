@@ -1,3 +1,8 @@
+---
+name: qa-acceptance-check
+description: Verify a claimed-complete feature against its acceptance criteria.
+---
+
 # acceptance-check — Verify Feature Meets Acceptance Criteria
 
 ## When to Use

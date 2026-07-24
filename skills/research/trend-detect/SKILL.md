@@ -1,23 +1,28 @@
+---
+name: research-trend-detect
+description: Detect emerging external market trends and internal usage trends, with evidence, relevance, and urgency ratings.
+---
+
 # trend-detect — Detect Emerging Trends
 
 ## When to Use
-Scout and Data Analyst use this skill. Scout scans external sources for market trends. Data Analyst scans internal data for usage trends. Can be run independently or together.
+Scout scans external sources for market trends. The data-analyst agent (if enabled — see config.json `agents`) scans internal data for usage trends. Can be run independently or together.
 
 ## Inputs
 - **Scout**: Web sources (industry blogs, competitor updates, tech news, community forums)
-- **Data Analyst**: Internal usage data (feature adoption, engagement patterns, growth metrics)
+- **Data Analyst**: Internal usage data via the `customer.activity` adapter (feature adoption, engagement patterns, growth metrics)
 - Previous trend reports for continuity
 
 ## Procedure
 
 1. **Scan for signals**:
-   - Scout: search web for emerging trends in sourcing, CRM, AI-assisted workflows, and adjacent spaces
-   - Data Analyst: query internal data for shifts in usage patterns, feature adoption curves, anomalies
+   - Scout: search web for emerging trends in the product's domain (see config.json) and adjacent spaces
+   - Data Analyst: query internal data via the `customer.activity` adapter for shifts in usage patterns, feature adoption curves, anomalies
 2. For each signal detected, document:
    - **What's changing** — describe the trend in one sentence
    - **Evidence** — source link, data point, or metric
    - **Direction** — growing / declining / emerging / stabilizing
-3. **Assess relevance** — does this trend affect gotchi's product, market, or users?
+3. **Assess relevance** — does this trend affect the product, its market, or its users?
    - **Direct**: affects core product functionality or target users
    - **Adjacent**: affects a related space, could become relevant
    - **Peripheral**: interesting but no clear connection
@@ -45,7 +50,7 @@ requires: read
 - **Direction**: {growing / declining / emerging / stabilizing}
 - **Relevance**: {direct / adjacent / peripheral}
 - **Urgency**: {act now / watch / note}
-- **Implication for Gotchi**: {what this means for us}
+- **Implication**: {what this means for us}
 
 ### Signal: {trend name}
 ...
@@ -57,5 +62,5 @@ Single post to `#research` in the template above. Multiple signals can be in one
 ## Rules
 - Every signal must have evidence — a source link or a data point. No speculation without basis
 - Relevance and urgency are judgments — explain the reasoning, don't just label
-- "Act now" signals must be flagged to Innovator and Product Chief within 24h
+- "Act now" signals must be flagged to the CTO (and to the innovator / product-chief agents if enabled — see config.json `agents`) within 24h
 - Revisit previous "watch" signals monthly — upgrade or archive them

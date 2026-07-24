@@ -1,3 +1,8 @@
+---
+name: ceremonies-retrospective
+description: Weekly sprint retrospective — reflect on process and propose improvements.
+---
+
 # retrospective — Run Sprint Retrospective
 
 ## When to Use

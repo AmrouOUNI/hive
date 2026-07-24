@@ -1,3 +1,8 @@
+---
+name: ceremonies-blocker-detect
+description: Proactively scan for stuck work and escalate blockers before they stall the sprint.
+---
+
 # blocker-detect — Detect and Escalate Blockers
 
 ## When to Use

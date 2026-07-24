@@ -1,24 +1,26 @@
 # The Hive
 
-Autonomous AI corporation that manages software projects end-to-end.
+An autonomous AI operations layer for software projects, built entirely on Claude Code primitives — scheduled tasks, skills, subagents — with GitHub Discussions as the communication bus. No external orchestration framework, no server to host.
 
-18 specialized agents. 85 skills. 21 scheduled tasks. Human-in-the-loop for key decisions.
+8 core agents (plus 10 optional ones), a lean skill catalog, and human-in-the-loop for the decisions that matter.
 
-**This is not a SaaS product.** It's personal infrastructure — a force multiplier for solo founders.
+**This is not a SaaS product.** It's personal infrastructure — a force multiplier for solo founders and small teams. The framework is fully project-agnostic: everything specific to *your* product lives in your project, not here.
 
 ## How It Works
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                         HIVE REPO                                │
-│                   (this repo — GitHub)                            │
+│                   (this repo — the blueprint)                     │
 │                                                                  │
-│  The blueprint. Never runs. Never has secrets.                   │
+│  Never runs. Never has secrets. Never names your stack.          │
 │                                                                  │
-│  agents/           18 agents (AGENT.md + SKILL.md + schedule)    │
-│  skills/           85 skills across 18 categories                │
-│  protocols/        Communication, escalation, adapters           │
-│  skills/setup/     Bootstrap skill for new client projects       │
+│  agents/core/      8 default agents (AGENT.md + SKILLs + cron)   │
+│  agents/optional/  10 opt-in agents (product, customer, AI, …)   │
+│  skills/           hive-specific skills (strategy, ops, QA, …)   │
+│  protocols/        communication, escalation, adapters,          │
+│                    capabilities, maturity                        │
+│  skills/setup/     bootstrap skill for new client projects       │
 │                                                                  │
 └──────────────────────────────┬──────────────────────────────────┘
                                │
@@ -27,253 +29,59 @@ Autonomous AI corporation that manages software projects end-to-end.
                                │
 ┌──────────────────────────────▼──────────────────────────────────┐
 │                      CLIENT PROJECT                              │
-│                  (your product repo)                              │
+│                    (your product repo)                            │
 │                                                                  │
 │  .claude/hive/                                                   │
-│    config.json        maturity stage, repo info, discussion IDs  │
-│    skills-map.json    maps client skills to hive agents           │
-│    adapters/          HOW agents access this project's tools      │
-│      observe-logs     → your hosting logs (Railway, Vercel, ...) │
-│      observe-metrics  → your DB metrics (Supabase, RDS, ...)     │
-│      observe-errors   → your error tracker (Sentry, ...)         │
-│      security-deps    → your package manager audit               │
-│      build            → your test/lint/build commands             │
-│      infra-deploy     → your deploy tool                         │
-│      customer-*       → your usage/feedback data                 │
+│    config.json        project info, maturity stage, enabled      │
+│                       agents, GH Discussion IDs                  │
+│    skills-map.json    capability → installed-skill mapping        │
+│    adapters/          HOW agents reach this project's tools       │
+│      observe-*        → your hosting logs / metrics / errors     │
+│      infra-*          → your deploy tool, your DB                │
+│      security-*       → your package audit, secret scanner       │
+│      build-*          → your test/lint/build commands             │
+│      notify-*         → your chat channel, email                 │
+│    context/           per-agent rolling memory                    │
 │                                                                  │
-│  codebase            the actual product code                     │
+│  codebase             the actual product code                    │
 │                                                                  │
 └──────────────────────────────┬──────────────────────────────────┘
                                │
-                               │  scheduled tasks read SKILL.md
+                               │  scheduled tasks load SKILL.md
                                │  prompts + adapters, run against
                                │  the codebase
-                               │
-┌──────────────────────────────▼──────────────────────────────────┐
-│                     YOUR MACHINE (runtime)                       │
-│              ~/.claude/scheduled-tasks/                           │
-│                                                                  │
-│  {agent}-{schedule}/SKILL.md     created from hive SKILL.md      │
-│  ...                             persists across sessions        │
-│                                                                  │
-│  Requires: Claude Code open from client project directory        │
-│  Tasks fire when REPL is idle. You can code in between.          │
-│                                                                  │
-└──────────────────────────────┬──────────────────────────────────┘
-                               │
-                               │  agents READ from project,
-                               │  WRITE to GitHub
                                │
 ┌──────────────────────────────▼──────────────────────────────────┐
 │                        GITHUB                                    │
 │                                                                  │
 │  GH Discussions (agent reports)    GH Issues (task tracker)      │
-│  ┌─────────────────────────┐      ┌──────────────────────┐      │
-│  │ #daily-standup          │      │ Prioritized backlog  │      │
-│  │ #security               │      │ P0 / P1 / P2        │      │
-│  │ #incidents              │      │ XS / S / M / L / XL │      │
-│  │ #architecture           │      │                      │      │
-│  │ #ops                    │      │ Project board:       │      │
-│  │ #research               │      │ Backlog → Ready →    │      │
-│  │ #features               │      │ In Progress → Done   │      │
-│  │ #product                │      │                      │      │
-│  │ #customer               │      └──────────────────────┘      │
-│  │ #scaling                │                                     │
-│  │ #decisions              │                                     │
-│  │ #roadmap                │                                     │
-│  └─────────────────────────┘                                     │
+│  #daily-standup #security          Prioritized backlog           │
+│  #incidents #architecture #ops     P0/P1/P2 · sizes             │
+│  #research #features #product      Project board                 │
+│  #customer #scaling #decisions                                   │
+│  #roadmap                                                        │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Agent Lifecycle
+## Three Layers of Abstraction
+
+Agents are pure logic; everything environment-specific resolves at run time in the client project.
 
 ```
-DEFINITION (this repo, written once)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  agents/{name}/
-    AGENT.md         WHO — persona, authority, knowledge domains
-    SKILL-daily.md   WHAT — prompt for daily cycle
-    SKILL-weekly.md  WHAT — prompt for weekly cycle
-    schedule.json    WHEN — cron expressions
-    context.md       STATE — rolling snapshot, updated each run
-
-
-CONFIGURATION (client project, per-project)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  .claude/hive/
-    config.json      project info, maturity stage
-    adapters/        HOW to access this project's tools
-    skills-map.json  which client skills agents can use
-
-
-ACTIVATION (your machine, one-time setup)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  create_scheduled_task(
-    taskId: "{agent}-{schedule}",
-    cron:   from schedule.json,
-    prompt: from SKILL-{schedule}.md
-  )
-
-  Persists to ~/.claude/scheduled-tasks/
-
-
-RUNTIME (daily, automatic)
-━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-  Cron fires → load SKILL prompt → read project → think → post report
+Layer 1  AGENTS + HIVE SKILLS + PROTOCOLS      (this repo — who, what, when)
+Layer 2  CAPABILITIES                          capability:code-review, capability:incident-response
+         → resolved via client skills-map.json to whatever review/incident
+           skill is installed in that environment (never duplicated here)
+Layer 3  ADAPTERS                              observe.logs, infra.deploy, notify.primary
+         → resolved via client .claude/hive/adapters/ to concrete tools
 ```
 
-## Daily Schedule
-
-### Weekday Morning Flow
-
-```
-08:00  🔒 Sec Chief      → #security       Dependency scan, secret detection
-08:15  👁 Obs Chief       → #daily-standup  Production health, overnight review
-08:30  📋 Scrum Master    → #daily-standup  Standup compilation, blockers
-09:00  🎯 CTO            → #daily-standup  Dispatch report, priority stack
-09:15  📦 Product Chief   → #product        Product pulse, user signal
-09:30  🔭 Scout           → #research       Competitive scan, market trends
-14:00  🧪 QA Lead         → #daily-standup  Test suite, coverage, regressions
-17:00  📋 Scrum Master    → #daily-standup  EOD wrap, tomorrow's priorities
-```
-
-### Weekly Schedule
-
-```
-MONDAY
-  09:30  🎯 CTO           → #roadmap        Sprint planning, priority ranking
-  10:00  💡 Innovator      → #features       Weekly ideation
-  10:30  📊 Data Analyst   → #research       KPI trends, cross-agent analysis
-
-WEDNESDAY
-  10:00  🏗 Architect      → #architecture   Design review, BC audit
-  10:00  ⚙️ DevOps         → #ops            Infra audit, cost review
-  10:30  👥 CS Lead        → #customer       Org health scores, churn risk
-  11:00  💼 Account Mgr    → #customer       Engagement review
-
-THURSDAY
-  10:00  📈 Scale Chief    → #scaling        Slow queries, capacity planning
-  10:30  🤖 Sr AI          → #research       Token costs, prompt quality
-
-FRIDAY
-  16:00  📋 Scrum Master   → #daily-standup  Sprint review + retro
-  16:00  📝 DevRel         → #daily-standup  Docs audit, changelog
-
-MONTHLY (1st Tuesday)
-  09:00  🔒 Sec Chief      → #security       Full security audit
-```
-
-## Information Flow
-
-```
-REAL WORLD                    AGENTS                         YOU
-━━━━━━━━━━                    ━━━━━━                         ━━━
-
-User interview ──► post to #customer ──► Product Chief ──┐
-                                         CS Lead ────────┤
-                                                         │
-Competitor launch ─────────────────────► Scout ──────────┤
-                                                         ├──► GH Discussions
-Prod error ────────────────────────────► Obs Chief ─────┤     (you read over
-                                                         │      coffee)
-CVE published ─────────────────────────► Sec Chief ─────┤         │
-                                                         │         ▼
-Code pushed ───────────────────────────► QA Lead ───────┘   Pick what to
-                                                             work on
-                                              │
-                                              ▼
-                                         Your dev workflow
-                                         (orchestrate → refine
-                                          → build-plan → implement)
-                                              │
-                                              ▼
-                                         GH Issue → Done
-                                         Scrum Master tracks it
-```
-
-## Adapter Architecture
-
-Agents are project-agnostic (ports). Client projects provide adapters (implementations).
-
-```
-HIVE defines PORTS                    CLIENT provides ADAPTERS
-━━━━━━━━━━━━━━━━━                    ━━━━━━━━━━━━━━━━━━━━━━━
-
-observe.logs                          → railway logs
-observe.errors                        → sentry API
-observe.metrics                       → supabase MCP / pg_stat
-infra.deploy                          → railway status
-infra.db                              → supabase CLI
-security.deps                         → pnpm audit
-security.secrets                      → gitleaks
-customer.activity                     → SQL on usage_events
-customer.feedback                     → SQL on usage_events
-notify.telegram                       → telegram bot API
-build.*                               → pnpm nx run {project}:*
-```
-
-See `protocols/adapters.md` for the full port registry.
-
-## Maturity-Aware Decisions
-
-Agents read `config.json.maturity.stage` and adjust behavior:
-
-| Stage | Label | Agent behavior |
-|-------|-------|----------------|
-| 1 | POC | Ship fast. Only block on security basics. Monolith mandatory. |
-| 2 | Early Product | Balance speed with stability. Start measuring. No distributed systems. |
-| 3 | Growth | Invest in foundations. Auto-scaling. Cache strategy. Pay tech debt. |
-| 4 | Scale | Every decision has a business case. Multi-region. Chaos engineering. |
-
-## Repo Structure
-
-```
-hive/
-├── README.md              This file
-├── design.md              Full architecture blueprint
-├── metadata.json          Epic metadata
-│
-├── agents/ (18 agents)
-│   └── {name}/
-│       ├── AGENT.md       Persona, authority, knowledge domains
-│       ├── SKILL-*.md     Executable prompts (1 per scheduled cycle)
-│       ├── schedule.json  Cron expressions
-│       └── context.md     Rolling state template
-│
-├── skills/ (85 skills across 18 categories)
-│   ├── strategy/          dispatch, prioritize, decision, roadmap, cost-review
-│   ├── architecture/      adr, design-review, dependency-map, bounded-context-audit
-│   ├── security/          vuln-scan, auth-audit, secret-scan, compliance, pentest, incident
-│   ├── observability/     health-check, anomaly-detect, incident-triage, metrics, postmortem
-│   ├── infra/             deploy, rollback, backup, audit, scale, ci-monitor, smoke-test
-│   ├── performance/       perf-audit, n-plus-one, capacity, cache, connection-pool
-│   ├── code/              code-review, refactor
-│   ├── ai/                prompt-audit, llm-cost, model-eval, rag-quality, prompt-optimize
-│   ├── qa/                coverage, acceptance, regression, test-strategy
-│   ├── product/           competitive-scan, user-insight, feature-brief, market-size
-│   ├── research/          market-scan, competitor, trend, partnership, source-evaluate
-│   ├── innovation/        ideate, feasibility, impact-estimate, prototype-brief
-│   ├── ceremonies/        standup, sprint-plan, sprint-review, retro, blocker, velocity
-│   ├── customer/          health-score, churn, cohort, expansion, nps
-│   ├── account/           onboard, engagement, outreach, churn-response
-│   ├── support/           ticket-triage, auto-resolve, escalate, kb-update
-│   ├── docs/              docs-audit, changelog, faq, onboard-test
-│   ├── data/              cross-agent, decision-audit, sentiment, kpi, conversation, insights
-│   └── setup/             Bootstrap skill for new client projects
-│
-└── protocols/
-    ├── communication.md   How agents talk to each other
-    ├── escalation.md      When to involve the human
-    ├── knowledge-dispatch.md  Who owns what knowledge
-    ├── project-maturity.md    Stage-based decision rules
-    └── adapters.md        Port registry for all adapters
-```
+- **Adapters** (`protocols/adapters.md`) answer: *how do I reach this project's infrastructure?*
+- **Capabilities** (`protocols/capabilities.md`) answer: *how do I perform a generic practice (review, ADR, incident) with the skills installed in this environment?* Hive deliberately ships **no** code-review / security-review / ADR / debugging skills of its own — modern Claude Code environments already have better ones.
 
 ## Agents
+
+### Core (enabled by default)
 
 | Role | Codename | Schedule | Writes to |
 |------|----------|----------|-----------|
@@ -282,43 +90,74 @@ hive/
 | Sec Chief | `sec-chief` | daily + monthly | #security, #incidents |
 | Obs Chief | `obs-chief` | daily | #daily-standup, #incidents, #ops |
 | DevOps | `devops` | weekly | #ops, #incidents |
-| Product Chief | `product-chief` | daily | #product |
-| Scale Chief | `scale-chief` | weekly | #scaling |
-| Sr Backend | `sr-backend` | on-demand | #daily-standup |
-| Sr AI | `sr-ai` | weekly | #research |
 | QA Lead | `qa-lead` | daily | #daily-standup |
-| Scout | `scout` | daily | #research |
-| Innovator | `innovator` | weekly | #features |
 | Scrum Master | `scrum-master` | daily (x2) + weekly | #daily-standup, #decisions |
-| CS Lead | `cs-lead` | weekly | #customer |
-| Account Mgr | `account-mgr` | weekly | #customer |
-| DevRel | `devrel` | weekly | #daily-standup |
-| Data Analyst | `data-analyst` | weekly | #research |
-| Support | `support` | — | — |
+| Scout | `scout` | daily | #research |
 
-## Getting Started
+### Optional (enable per project in config.json)
 
-1. **Bootstrap a client project:**
-   ```bash
-   cd ~/Code/your-project
-   claude --prompt "$(cat ~/Code/hive/skills/setup/SKILL.md)"
-   ```
+| Role | Codename | Best for |
+|------|----------|----------|
+| Product Chief | `product-chief` | products with real users to learn from |
+| Innovator | `innovator` | feature ideation cadence |
+| CS Lead | `cs-lead` | B2B/SaaS customer health |
+| Account Mgr | `account-mgr` | per-account care |
+| Support | `support` | products with a support inbox |
+| DevRel | `devrel` | docs/changelog upkeep |
+| Data Analyst | `data-analyst` | cross-agent pattern mining |
+| Sr Backend | `sr-backend` | dispatched implementation work |
+| Sr AI | `sr-ai` | products with LLM pipelines |
+| Scale Chief | `scale-chief` | performance/capacity focus |
 
-2. **Set up GH Discussions** on the client repo (12 categories)
-
-3. **Create scheduled tasks** from agent SKILL.md files:
-   ```bash
-   cd ~/Code/your-project
-   claude
-   # then: "Read all agents from ~/Code/hive/agents/ and create scheduled tasks"
-   ```
-
-4. **Open Claude Code daily** from the client project directory. Agents fire automatically.
+Each agent directory contains: `AGENT.md` (persona, authority matrix, knowledge domains), `SKILL-*.md` (one executable prompt per scheduled cycle), `schedule.json` (cron), `context.md` (rolling state template).
 
 ## Design Principles
 
-1. **Agents don't code** — they read, analyze, and report. The human decides.
-2. **Hive is project-agnostic** — zero client-specific content. Adapters live in the client.
-3. **Reports are discussions, not files** — GH Discussions is the comms bus. No report files to manage.
-4. **Maturity-aware** — agents adjust behavior based on project stage. A POC doesn't need chaos engineering.
-5. **Human-in-the-loop** — agents recommend, you decide. Authority matrix defines what's autonomous vs needs approval.
+1. **Agents don't code** — they read, analyze, and report. The human decides. (The optional `sr-backend` is the one exception, and only on explicit dispatch.)
+2. **Hive is project-agnostic** — zero client-specific content here. Adapters and config live in the client.
+3. **Don't duplicate the ecosystem** — generic practices (code review, incident response, ADRs…) are capabilities mapped to the skills already installed in your environment.
+4. **Reports are discussions, not files** — GH Discussions is the comms bus.
+5. **Maturity-aware** — agents read the project's maturity stage (`protocols/project-maturity.md`) and scale their ambitions accordingly. A POC doesn't need chaos engineering.
+6. **Human-in-the-loop** — authority matrices define what's autonomous vs what needs approval (`protocols/escalation.md`).
+
+## Getting Started
+
+1. Clone this repo anywhere (its path is referred to as `{HIVE_ROOT}`).
+
+2. **Bootstrap a client project** — from your product repo, run the setup skill:
+   ```bash
+   cd /path/to/your-project
+   claude "$(cat {HIVE_ROOT}/skills/setup/SKILL.md)"
+   ```
+   It detects your stack, asks which agent packs to enable, creates `.claude/hive/` (config, adapters, skills-map, context files), sets up the GH Discussion categories, and registers the scheduled tasks.
+
+3. **Let it run.** Agents fire on their cron schedules and post to your repo's Discussions. Read them over coffee, pick what to act on.
+
+## Repo Structure
+
+```
+hive/
+├── README.md
+├── design.md              architecture blueprint
+├── agents/
+│   ├── core/{8 agents}/
+│   └── optional/{10 agents}/
+├── skills/
+│   ├── setup/             bootstrap a client project
+│   ├── dispatch/          reactive GH Discussions dispatcher (cron)
+│   ├── strategy/          prioritize, dispatch, decision, roadmap, cost-review
+│   ├── ceremonies/        standup, sprint-plan, sprint-review, retro, blockers, velocity
+│   ├── observability/     health-check, anomaly-detect, metrics-digest
+│   ├── infra/             deploy, rollback, backup-verify, audits, ci-monitor, smoke-test
+│   ├── qa/                coverage-audit, acceptance-check, regression-scan
+│   ├── research/          market-scan, competitor-track, trend-detect, …
+│   ├── architecture/      dependency-map, bounded-context-audit
+│   └── optional/          product, innovation, customer, account, support, data, ai, performance
+└── protocols/
+    ├── communication.md   message format, threading, rate limits
+    ├── escalation.md      when and how to involve the human
+    ├── adapters.md        port registry (infrastructure access)
+    ├── capabilities.md    capability registry (generic practices → installed skills)
+    ├── knowledge-dispatch.md  who owns which system-design knowledge
+    └── project-maturity.md    stage-based decision rules
+```

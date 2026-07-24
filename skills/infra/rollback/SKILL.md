@@ -1,3 +1,8 @@
+---
+name: infra-rollback
+description: Roll back a production deployment when post-deploy errors are detected or CTO orders it.
+---
+
 # rollback — Rollback Production Deployment
 
 ## When to Use

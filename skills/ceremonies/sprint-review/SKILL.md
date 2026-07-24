@@ -1,3 +1,8 @@
+---
+name: ceremonies-sprint-review
+description: Compile everything shipped during the sprint and report plan vs actual.
+---
+
 # sprint-review — Run Sprint Review
 
 ## When to Use

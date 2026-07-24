@@ -1,3 +1,8 @@
+---
+name: ceremonies-sprint-plan
+description: Weekly sprint planning — review the previous sprint, set goals, publish the plan.
+---
+
 # sprint-plan — Run Sprint Planning
 
 ## When to Use

@@ -31,7 +31,7 @@ Maps the 10 system design domains to hive agents. Each agent absorbs the concept
 | Data modeling (normalization vs denormalization) | **Architect** | Sr Backend | Architect decides, Sr Backend implements |
 | Replication topology | **DevOps** | Architect | DevOps configures, Architect validates consistency model |
 | Backup and recovery | **DevOps** | — | Pure ops concern |
-| Connection pooling (PgBouncer, Supavisor) | **Scale Chief** | DevOps | Scale Chief tunes, DevOps deploys |
+| Connection pooling (PgBouncer and equivalents) | **Scale Chief** | DevOps | Scale Chief tunes, DevOps deploys |
 | Data lifecycle management | **CTO** | DevOps | Business decision on retention, DevOps automates |
 
 ### Domain 3: Caching Strategies
@@ -162,6 +162,6 @@ Maps the 10 system design domains to hive agents. Each agent absorbs the concept
 
 ## Key Insight: The Architect Is the Knowledge Hub
 
-The Architect touches 8 of 10 domains. This confirms why the Architect agent needs deep client-skill access (`align`, `refine`, `build-plan` review) — every design decision passes through architectural judgment.
+The Architect touches 8 of 10 domains. This confirms why the Architect agent needs deep capability access (`capability:design-review`, `capability:architecture-decision`, `capability:feature-development` in review mode) — every design decision passes through architectural judgment.
 
-But the **CTO filters through maturity stage**. The Architect might say "we need sharding." The CTO says "we have 14 orgs — we need sharding in 2 years, not now."
+But the **CTO filters through maturity stage**. The Architect might say "we need sharding." The CTO says "we have a handful of tenants — we need sharding in 2 years, not now."

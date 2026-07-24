@@ -1,7 +1,14 @@
+---
+name: hive-setup
+description: Bootstrap the hive in a client project — config, adapters, skills-map, context files, GH Discussions, scheduled tasks
+---
+
 # setup — Bootstrap Hive in a Client Project
 
 ## When to Use
-First time connecting the hive to a new project. Creates `.claude/hive/` with config, adapters, and scheduled task registration.
+First time connecting the hive to a new project (or re-running to repair/extend an existing setup — the skill is idempotent: it never overwrites existing files without asking).
+
+Run from the client project root. `{HIVE_ROOT}` below means the local clone of the hive repo; ask the user for its path if unknown.
 
 ## Procedure
 
@@ -9,186 +16,145 @@ First time connecting the hive to a new project. Creates `.claude/hive/` with co
 
 Ask the user:
 1. Project name?
-2. GitHub repo (owner/name)?
-3. What maturity stage? (1=POC, 2=Early Product, 3=Growth, 4=Scale)
-4. Current user/org count?
-5. Tech stack? (hosting, DB, channels)
+2. GitHub repo (owner/name)? (default: infer from `git remote get-url origin`)
+3. Maturity stage? (1=POC, 2=Early Product, 3=Growth, 4=Scale — see `{HIVE_ROOT}/protocols/project-maturity.md`)
+4. Which agent packs to enable?
+   - **Core** (always on): cto, architect, sec-chief, obs-chief, devops, qa-lead, scrum-master, scout
+   - **Optional** (pick per project): product-chief, innovator, cs-lead, account-mgr, support, devrel, data-analyst, sr-backend, sr-ai, scale-chief
+5. Primary notification channel for the human (chat tool of choice, email, none)?
 
-### Step 2: Create `.claude/hive/config.json`
+### Step 2: Detect the Stack
+
+Do NOT assume any stack. Detect, then confirm with the user:
+
+- **Package manager / build**: look for lockfiles (`pnpm-lock.yaml`, `package-lock.json`, `yarn.lock`, `Cargo.toml`, `go.mod`, `pyproject.toml`…) and task runners (nx, turbo, make, just). Derive candidate `build.test` / `build.lint` / `build.build` commands from the project's own scripts.
+- **Hosting / deploy**: look for provider config files (e.g. `railway.json`, `vercel.json`, `fly.toml`, `Dockerfile` + k8s manifests, `serverless.yml`) and installed CLIs.
+- **Database**: connection strings in `.env.example`, ORM configs (Prisma, Drizzle, TypeORM, SQLAlchemy…).
+- **Error tracking / observability**: SDK imports or DSN env var names in `.env.example`.
+- **Security scanning**: the package manager's own audit command; a secret scanner if one is installed (otherwise note it as a recommendation).
+
+For each adapter port the enabled agents need, propose a concrete implementation and let the user confirm or edit.
+
+### Step 3: Create `.claude/hive/config.json`
 
 ```json
 {
   "project": "{name}",
-  "repo": {
-    "owner": "{owner}",
-    "name": "{repo}",
-    "base_branch": "main"
-  },
+  "repo": { "owner": "{owner}", "name": "{repo}", "base_branch": "{main}" },
   "maturity": {
-    "stage": {n},
-    "label": "{label}",
+    "stage": 2,
+    "label": "early-product",
     "users": "~{n}",
-    "orgs": {n},
-    "last_assessed": "{date}"
+    "last_assessed": "{today}",
+    "notes": "{free-form context}"
+  },
+  "agents": {
+    "core": true,
+    "optional": ["{enabled optional agents}"]
   },
   "discussions": {
-    "repo_id": "{get via gh api}",
-    "category_ids": "{get via gh api}"
+    "repo_id": "{resolved in Step 6}",
+    "category_ids": { "{category}": "{id}" }
   },
   "human": {
     "name": "{name}",
-    "notify": {
-      "telegram": "env:HIVE_TG_CHAT_ID"
-    }
+    "github_handle": "{handle}",
+    "notify": { "primary": "{configured|none}", "email": "{configured|none}", "urgent": "{configured|none}" }
   }
 }
 ```
 
-### Step 3: Create Adapters
+### Step 4: Create Adapters
 
-Based on the tech stack, create adapter files in `.claude/hive/adapters/`:
+For each port needed by the enabled agents (registry in `{HIVE_ROOT}/protocols/adapters.md`), create `.claude/hive/adapters/{port-name}.md` using the format from that protocol, filled with the stack detected in Step 2. Ports with no available implementation get `## Status: not-configured` — agents degrade gracefully.
 
-**For Railway hosting:**
-- `observe-logs.md` — `railway logs --json`
-- `infra-deploy.md` — `railway status`
+Minimum ports for core agents: `observe-logs`, `observe-errors`, `observe-metrics`, `infra-deploy`, `security-deps`, `security-secrets`, `build-test`, `notify-primary`.
+Add `customer-activity` / `customer-feedback` only if customer-facing optional agents are enabled.
 
-**For Supabase DB:**
-- `observe-metrics.md` — SQL queries via psql or Supabase CLI
-- `infra-db.md` — `supabase inspect`
-- `security-auth.md` — `supabase inspect db policies`
+### Step 5: Generate `skills-map.json`
 
-**For NestJS API:**
-- `security-deps.md` — `pnpm audit --json`
-- `security-secrets.md` — gitleaks or manual scan
-- `build.md` — `pnpm nx run {project}:test/lint/build`
+Scan the environment for installed skills that can provide each capability from `{HIVE_ROOT}/protocols/capabilities.md`:
+- project skills: `.claude/skills/`, `.claude/commands/`
+- user/plugin skills: `~/.claude/skills/`, installed plugins, built-in slash commands
 
-**For Telegram/WhatsApp channels:**
-- `notify-telegram.md` — bot token + chat ID
+Write `.claude/hive/skills-map.json`:
 
-**Always create:**
-- `customer-activity.md` — SQL on usage_events table (after #11 is built)
-- `customer-feedback.md` — SQL on usage_events where type = 'feedback_given'
-
-Each adapter file follows this format:
-
-```markdown
-# {adapter-name}
-
-## Tool
-{tool name}
-
-## Command
-{command to run}
-
-## Environment Variables
-- {VAR_NAME} — {description}
-
-## Output Format
-{what the agent should expect}
-
-## Notes
-{setup instructions, prerequisites}
-
-## Status
-{active | not-configured | blocked-by-#{issue}}
+```json
+{
+  "capabilities": {
+    "code-review": "{best match or null}",
+    "security-review": "{…}",
+    "incident-response": "{…}",
+    "architecture-decision": "{…}",
+    "testing-strategy": "{…}",
+    "debug": "{…}",
+    "documentation": "{…}",
+    "refactor": "{…}",
+    "design-review": "{…}",
+    "standup-summary": "{…}",
+    "deploy-checklist": "{…}",
+    "feature-development": "{…}"
+  }
+}
 ```
 
-### Step 4: Create Agent Context Files
+Show the mapping to the user for confirmation — they know their environment best. `null` is fine: agents fall back to the guidance in `capabilities.md`.
 
-Create `.claude/hive/context/` with a context file for each active agent:
+### Step 6: GitHub Discussions
+
+1. Verify `gh auth status`.
+2. Fetch repo id + existing categories:
+   ```bash
+   gh api graphql -f query='{ repository(owner: "{owner}", name: "{repo}") {
+     id
+     discussionCategories(first: 20) { nodes { id name } }
+   } }'
+   ```
+3. Compare against the categories required by the enabled agents (see `design.md` category table). List missing ones and ask the user to create them (GitHub currently only allows category creation via the web UI: `https://github.com/{owner}/{repo}/discussions/categories`). Re-fetch after they confirm.
+4. Store `repo_id` and all `category_ids` in `config.json`.
+
+### Step 7: Create Agent Context Files + Dispatcher State
 
 ```bash
 mkdir -p .claude/hive/context
-```
-
-For each agent that will be scheduled, create `.claude/hive/context/{agent-name}.md`:
-
-```markdown
-# {Agent Role} Context
-> Last updated: never (awaiting first run)
-
-## Key State
-_Empty — awaiting first run_
-```
-
-Agents read this file at the start of each run (memory from last session) and update it at the end. This provides continuity between runs.
-
-Active agents need context files:
-- `cto.md` — sprint goal, key signals, decisions pending, cost watch
-- `obs-chief.md` — metric baselines, open incidents, recent deploys
-- `sec-chief.md` — CVE inventory, audit dates, known risks
-- `scrum-master.md` — sprint status, velocity, blockers, ceremony log
-- `product-chief.md` — user signals, competitor watch, metrics
-
-Also create the dispatcher state file:
-```bash
 echo '{"processed": {}}' > .claude/hive/dispatcher-state.json
 ```
 
-### Step 5: Verify Environment
+For each ENABLED agent, copy its `context.md` template from `{HIVE_ROOT}/agents/{core|optional}/{codename}/context.md` to `.claude/hive/context/{codename}.md`, with header `> Last updated: never (awaiting first run)`.
 
-Check each adapter's env vars are set:
-```bash
-echo "Checking env vars..."
-for var in RAILWAY_TOKEN SENTRY_DSN SUPABASE_ACCESS_TOKEN; do
-  if [ -z "${!var}" ]; then
-    echo "❌ $var not set"
-  else
-    echo "✅ $var set"
-  fi
-done
-```
+### Step 8: Register Scheduled Tasks
 
-### Step 6: Get GH Discussion Category IDs
+For each enabled agent, read `{HIVE_ROOT}/agents/{core|optional}/{codename}/schedule.json` and the matching `SKILL-{cycle}.md`, then create one scheduled task per cycle with Claude Code's scheduled-task tooling:
+- task id: `{codename}-{cycle}`
+- cron: from schedule.json (ask the user for their timezone first)
+- prompt: the SKILL file content (or a prompt that reads the SKILL file at run time, so hive updates propagate without re-registering)
 
-```bash
-gh api graphql -f query='{ repository(owner: "{owner}", name: "{repo}") {
-  id
-  discussionCategories(first: 20) {
-    nodes { id name }
-  }
-} }'
-```
+Also register the dispatcher: `hive-dispatcher`, from `{HIVE_ROOT}/skills/dispatch/SKILL.md`, every 30 min on weekdays.
 
-Store in config.json.
+**Ask before creating any scheduled task** — list them all first with their cron lines.
 
-### Step 7: Register Scheduled Tasks
+### Step 9: Verify
 
-Read all agent schedules from `~/Code/hive/agents/*/schedule.json`.
-For each schedule, read the corresponding `SKILL-*.md`.
-Create scheduled tasks via `create_scheduled_task`.
+1. Env vars referenced by adapters: check each is set; report missing ones.
+2. `gh auth status` — correct account, repo reachable.
+3. One read-only dry-run per configured adapter (e.g. fetch 5 log lines via `observe-logs`); mark failing adapters `## Status: blocked` with the error.
+4. Print the summary:
 
-### Step 8: Summary
-
-Print what was created:
 ```
 .claude/hive/
-  config.json              ✅ Project: {name}, Stage: {stage}
-  dispatcher-state.json    ✅ Empty state
-  adapters/
-    observe-logs.md        ✅ Railway
-    observe-errors.md      ⚠️ Needs SENTRY_DSN
-    observe-metrics.md     ✅ Supabase
-    ...
-  context/
-    cto.md                 ✅ Awaiting first run
-    obs-chief.md           ✅ Awaiting first run
-    sec-chief.md           ✅ Awaiting first run
-    scrum-master.md        ✅ Awaiting first run
-    product-chief.md       ✅ Awaiting first run
+  config.json              ✅ {project}, Stage {n}, {k} agents enabled
+  skills-map.json          ✅ {m}/{total} capabilities mapped
+  dispatcher-state.json    ✅
+  adapters/                ✅ {n} active, {m} not-configured, {p} blocked
+  context/                 ✅ {k} agent context files
 
 Scheduled tasks: {n} created
-  cto-daily                ✅ weekdays 9:00
-  scrum-master-standup     ✅ weekdays 8:30
-  hive-dispatcher          ✅ every 30 min weekdays
-  ...
-
-Missing env vars:
-  SENTRY_DSN — set up Sentry first
+Missing: {list of env vars / categories / adapters to finish}
 ```
 
 ## Constraints
 - Do NOT create secrets — only reference env vars
-- Do NOT commit env vars to git
-- Add `.claude/hive/adapters/` to `.gitignore` if it contains any non-env-var secrets
+- Do NOT commit env values to git; suggest gitignoring `.claude/hive/adapters/` if any adapter embeds sensitive material
+- Do NOT overwrite an existing `.claude/hive/` file without asking
 - Ask before creating scheduled tasks
+- Never enable an optional agent the user didn't pick

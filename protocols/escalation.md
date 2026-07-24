@@ -2,28 +2,28 @@
 
 ## Notification Channels
 
-| Channel | Tool | When |
+Channels are adapter ports — the concrete tool (Slack, Telegram, email provider, SMS gateway…) is configured per project in `.claude/hive/adapters/`.
+
+| Channel | Port | When |
 |---------|------|------|
 | GitHub Discussions | `gh discussion` | Always (every post) |
-| Telegram | `adapter:notify.telegram` | Level 1+ (review, approval, urgent) |
+| Primary chat channel | `adapter:notify.primary` | Level 1+ (review, approval, urgent) |
 | Email | `adapter:notify.email` | Level 2+ (approval, urgent) |
-| WhatsApp | `adapter:notify.whatsapp` | Level 3 only (critical — Phase 2) |
-| Phone (Twilio) | `adapter:notify.phone` | Level 3 no response 30min (Phase 2) |
+| Urgent channel (SMS/phone/pager) | `adapter:notify.urgent` | Level 3 only (critical), optional |
 
 ## Escalation Timeline
 
 ```
 T+0     Approval request posted
         → GH Discussion created
-        → Telegram message sent
-        → Email sent (if Level 2+)
+        → notify.primary message sent
+        → notify.email sent (if Level 2+)
 
 T+2h    No response on Level 2
-        → Telegram reminder
-        → Escalate to Level 3 channels
+        → notify.primary reminder
 
 T+3h    No response on Level 2
-        → SMS
+        → notify.urgent (if configured)
         → CTO auto-defers non-critical items
 
 T+6h    Non-critical auto-deferred
@@ -31,7 +31,7 @@ T+6h    Non-critical auto-deferred
         → Added to next standup
 
 T+30min No response on Level 3 (CRITICAL)
-        → Phone call
+        → notify.urgent
         → If still no response: execute pre-authorized safe action
           (rollback, disable feature flag, scale down)
 ```
@@ -71,7 +71,7 @@ T+30min No response on Level 3 (CRITICAL)
 - Metrics digests
 - Code commits to feature branches
 
-## Telegram Message Formats
+## Notification Message Formats (notify.primary)
 
 ### Level 1 — Notify
 ```
@@ -118,6 +118,6 @@ Reply YES to proceed or NO to hold.
 1. Post approval request
 2. Mark task as "waiting-human" in context.md
 3. Continue with other queued work
-4. `/loop` heartbeat checks approval-queue every 10min
+4. The dispatcher run checks `.claude/hive/approval-queue.json` on its schedule
 5. When approved → resume blocked task
 6. Agents are NEVER idle waiting — always pick up next available work

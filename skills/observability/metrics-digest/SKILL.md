@@ -1,3 +1,8 @@
+---
+name: observability-metrics-digest
+description: Generate the daily and weekly metrics summary from observability data.
+---
+
 # metrics-digest — Generate Daily/Weekly Metrics Summary
 
 ## When to Use
@@ -5,7 +10,7 @@ Obs Chief runs this as part of dawn report (daily) and weekly digest (Monday).
 
 ## Inputs
 - `adapter:observe.metrics` — current metrics
-- `agents/obs-chief/context.md` — baselines and historical data
+- `.claude/hive/context/obs-chief.md` — baselines and historical data
 - Previous digest (for trend comparison)
 
 ## Procedure

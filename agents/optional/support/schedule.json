@@ -1,0 +1,10 @@
+{
+  "agent": "support",
+  "timezone": "Europe/Paris",
+  "schedules": [],
+  "dispatch": {
+    "triggered_by": "system",
+    "via": "new ticket event (user report, error-tracker alert, #customer post)",
+    "description": "Support Agent is event-driven. It activates on new ticket creation, error-tracker alerts, or user reports in #customer. No fixed schedule — continuous response."
+  }
+}

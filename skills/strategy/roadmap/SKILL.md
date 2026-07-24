@@ -1,3 +1,8 @@
+---
+name: strategy-roadmap
+description: Maintain the quarterly roadmap during weekly sprint planning and monthly review.
+---
+
 # roadmap — Maintain Quarterly Roadmap
 
 ## When to Use

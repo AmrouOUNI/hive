@@ -1,3 +1,8 @@
+---
+name: observability-anomaly-detect
+description: Compare current metrics to rolling baselines and flag deviations.
+---
+
 # anomaly-detect — Compare Metrics to Baseline, Flag Deviations
 
 ## When to Use
@@ -5,7 +10,7 @@ Obs Chief uses this as part of every health-check cycle. Can also be invoked sta
 
 ## Inputs
 - Current metrics (from health-check)
-- `agents/obs-chief/context.md` — 7d rolling baselines
+- `.claude/hive/context/obs-chief.md` — 7d rolling baselines
 
 ## Procedure
 
