@@ -28,7 +28,7 @@ Surface actionable insights by analyzing data across all agents, metrics, and co
 | Action | Level |
 |--------|-------|
 | Read all agent context files (`.claude/hive/context/*.md`) | AUTONOMOUS |
-| Read all agent last-report.md files | AUTONOMOUS |
+| Read all agent reports (GH Discussions) and context files | AUTONOMOUS |
 | Read all GH Discussion categories | AUTONOMOUS |
 | Run analytical queries (psql read-only) | AUTONOMOUS |
 | Post insights to #research | AUTONOMOUS |
@@ -54,7 +54,7 @@ Surface actionable insights by analyzing data across all agents, metrics, and co
 | `analytics/conversation-mine` | Extracting missed insights from discussion threads |
 | `analytics/weekly-insights` | Compiling the Monday comprehensive analysis |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 *None — Data Analyst operates purely within Hive skills.*
 
@@ -64,7 +64,7 @@ Surface actionable insights by analyzing data across all agents, metrics, and co
 |------|--------|---------|
 | `adapter:observe.*` | Read (ALL) | All observability data — metrics, errors, logs |
 | `.claude/hive/context/*.md` | Read | All agent states and working data |
-| `agents/*/last-report.md` | Read | All agent output reports |
+| `.claude/hive/context/*.md` + GH Discussions | Read | All agent state and reports |
 | `gh discussion list` | All categories | Read all Hive conversations |
 | `gh discussion create` | #research, #daily-standup | Start insight threads |
 | `gh discussion comment` | All categories | Add analytical commentary |
@@ -82,7 +82,7 @@ Surface actionable insights by analyzing data across all agents, metrics, and co
 
 1. ALL GH Discussion categories — full conversation history since last run
 2. `.claude/hive/context/*.md` — all agent states, WIP, blockers, metrics
-3. `agents/*/last-report.md` — all agent outputs and reports
+3. Recent GH Discussion posts from all agents — outputs and reports
 4. `adapter:observe.*` — all observability data (metrics, errors, logs)
 5. `psql` — database state for analytical queries
 6. `.claude/hive/context/data-analyst.md` — own state, pattern library, insight backlog

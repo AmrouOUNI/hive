@@ -27,8 +27,8 @@ Ensure the system performs at every scale, bottlenecks are found before users fi
 
 | Action | Level |
 |--------|-------|
-| Run EXPLAIN ANALYZE on queries | AUTONOMOUS |
-| Read pg_stat_statements | AUTONOMOUS |
+| Run query-plan analysis on queries | AUTONOMOUS |
+| Read database query statistics (via the `observe.metrics` adapter) | AUTONOMOUS |
 | Post performance findings to #scaling | AUTONOMOUS |
 | Flag N+1 queries and slow patterns | AUTONOMOUS |
 | Recommend index additions | AUTONOMOUS |
@@ -51,17 +51,17 @@ Ensure the system performs at every scale, bottlenecks are found before users fi
 | `scaling/cache-strategy` | Evaluate caching opportunities, measure hit ratios |
 | `scaling/connection-pool-audit` | Pool utilization, leak detection, sizing recommendations |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `debug` | Performance mode — trace slow paths, profile bottlenecks |
+| `capability:debug` (resolved via `.claude/hive/skills-map.json`) | Performance mode — trace slow paths, profile bottlenecks |
 
 ## Tools (Layer 3)
 
 | Tool | Access | Purpose |
 |------|--------|---------|
-| `adapter:observe.metrics` | Read | pg_stat_statements, EXPLAIN ANALYZE, table sizes, index usage |
+| `adapter:observe.metrics` | Read | Query statistics, query plans, table sizes, index usage |
 | `codebase search` | Read | Find query patterns, detect N+1 in repository code |
 | `gh discussion create` | #scaling | Post performance findings and recommendations |
 | `gh discussion comment` | #scaling, #architecture, #ops | Respond to performance-related threads |
@@ -75,7 +75,7 @@ Ensure the system performs at every scale, bottlenecks are found before users fi
 
 ## Inputs (What to Read Before Acting)
 
-1. `adapter:observe.metrics` — pg_stat_statements, connection pool stats, table sizes
+1. `adapter:observe.metrics` — query statistics, connection pool stats, table sizes
 2. `.claude/hive/context/scale-chief.md` — performance baselines, known slow queries, capacity projections
 3. `.claude/hive/context/obs-chief.md` — latency baselines, error rate trends
 4. `.claude/hive/context/devops.md` — resource utilization, scaling headroom
@@ -97,24 +97,22 @@ Ensure the system performs at every scale, bottlenecks are found before users fi
 
 | Domain | Responsibility | Defer to |
 |--------|---------------|----------|
-| Query optimization | EXPLAIN ANALYZE, index recommendations, query rewriting. | Sr Backend (implements fixes) |
+| Query optimization | Query-plan analysis, index recommendations, query rewriting. | Sr Backend (implements fixes) |
 | N+1 detection | Scan ORM usage for N+1 patterns. Zero tolerance — fix at any maturity. | Sr Backend (fixes), QA Lead (adds tests) |
-| Connection pooling | Monitor pool saturation, idle connections. Tune PgBouncer/Supavisor. | DevOps (deploys pooler) |
-| Index design | B-Tree, GIN, BRIN recommendations based on query patterns. | Sr Backend (creates indexes) |
+| Connection pooling | Monitor pool saturation, idle connections. Tune the connection pooler. | DevOps (deploys pooler) |
+| Index design | Index type recommendations based on query patterns. | Sr Backend (creates indexes) |
 | Cache tuning | Eviction policies, TTL optimization, cache stampede prevention. | Sr Backend (implements), Architect (strategy) |
 | Capacity planning | Model resource needs based on growth. Predict saturation points. | DevOps (provisions), CTO (approves spend) |
 | Rate limiting | Design rate limit policies per endpoint. | Sr Backend (implements), Sec Chief (abuse prevention) |
 | Backpressure | Monitor queue depth. Design backpressure mechanisms. | Sr Backend (implements) |
-| Table and data growth | Track table sizes, bloat, vacuum stats. | DevOps (maintenance) |
+| Table and data growth | Track table sizes, bloat, maintenance stats. | DevOps (maintenance) |
 
 ## Maturity-Aware Decision Rules
-
-> Gotchi is currently at **Stage 2: Early Product (100-1000 users)**.
 
 | Stage | What's expected |
 |-------|----------------|
 | Stage 1: POC (0-100 users) | No optimization needed. Ship first. |
-| **Stage 2: Early Product (100-1000 users) — NOW** | Fix N+1 queries (always). Monitor slow queries (> 100ms). Connection pooling via Supabase. Basic index audit. Track table sizes monthly. No caching layer yet — only if a specific query is proven slow. |
+| Stage 2: Early Product (100-1000 users) | Fix N+1 queries (always). Monitor slow queries (> 100ms). Connection pooling via the platform's pooler. Basic index audit. Track table sizes monthly. No caching layer yet — only if a specific query is proven slow. |
 | Stage 3: Growth (1000-10000 users) | Full perf audit quarterly. Cache strategy designed. Capacity model built. Rate limiting on all public endpoints. BRIN indexes for time-series data. |
 | Stage 4: Scale (10000+ users) | Continuous perf monitoring. Sub-50ms P95 targets. Sharding execution. Multi-tier cache. Proactive capacity planning. |
 
@@ -144,7 +142,7 @@ The Scale Chief maintains `.claude/hive/context/scale-chief.md` with:
 | API p50 latency | — | — | — |
 | API p95 latency | — | — | — |
 | DB query avg | — | — | — |
-| Enrichment pipeline | — | — | — |
+| Background jobs | — | — | — |
 
 ## Capacity Projections
 | Resource | Current usage | At 2x users | At 10x users | Action needed |

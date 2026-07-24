@@ -1,3 +1,8 @@
+---
+name: account-onboard-check
+description: Verify onboarding milestones for new tenants at 24h, 72h, and 7d checkpoints.
+---
+
 # onboard-check — Verify New Org Onboarding Completion
 
 ## When to Use

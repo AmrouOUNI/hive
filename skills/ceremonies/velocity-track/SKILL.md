@@ -1,3 +1,8 @@
+---
+name: ceremonies-velocity-track
+description: Track team throughput over time to inform planning and spot trends.
+---
+
 # velocity-track — Track Sprint Velocity
 
 ## When to Use

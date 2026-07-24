@@ -42,16 +42,16 @@ Ensure every user, new or experienced, can understand and use the product throug
 
 | Skill | When |
 |-------|------|
-| `docs/docs-audit` | Reviewing documentation for staleness, gaps, inaccuracies |
-| `docs/changelog-gen` | Transforming commits and discussions into user-facing changelogs |
-| `docs/faq-extract` | Mining conversations for recurring questions and patterns |
-| `docs/onboard-test` | Testing onboarding flows, documenting friction points |
+| `capability:documentation` | Auditing and writing docs — staleness, gaps, structure |
+| `capability:documentation` (changelog mode) | Transforming commits and discussions into user-facing changelogs |
+| `capability:documentation` (FAQ mode) | Mining conversations for recurring questions and patterns |
+| `capability:documentation` (onboarding mode) | Testing onboarding flows, documenting friction points |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `onboard` (review mode) | Reviewing onboarding experience, identifying gaps |
+| `capability:documentation` (onboarding mode) | Reviewing onboarding experience, identifying gaps |
 
 ## Tools (Layer 3)
 

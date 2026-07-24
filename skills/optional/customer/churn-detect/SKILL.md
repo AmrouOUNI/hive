@@ -1,3 +1,8 @@
+---
+name: customer-churn-detect
+description: Identify tenants showing churn signals and classify risk level.
+---
+
 # churn-detect — Flag At-Risk Organizations
 
 ## When to Use

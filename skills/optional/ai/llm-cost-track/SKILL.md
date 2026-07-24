@@ -1,3 +1,8 @@
+---
+name: ai-llm-cost-track
+description: Track LLM usage and costs on the every-4h cost check.
+---
+
 # llm-cost-track — Track LLM Usage and Costs
 
 ## When to Use

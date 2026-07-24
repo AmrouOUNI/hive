@@ -1,3 +1,8 @@
+---
+name: ai-prompt-optimize
+description: Optimize LLM prompts for cost and quality after an audit finds opportunities.
+---
+
 # prompt-optimize — Optimize LLM Prompts for Cost and Quality
 
 ## When to Use

@@ -48,11 +48,11 @@ Generate a continuous pipeline of high-impact, feasible feature ideas that keep 
 | `innovation/impact-estimate` | Score user impact, market value, revenue potential |
 | `innovation/prototype-brief` | Write concise feature brief: problem, solution, MVP scope |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `brainstorm` | Explore raw ideas collaboratively, structure into design documents |
+| `capability:feature-development` (resolved via `.claude/hive/skills-map.json`) | Explore raw ideas collaboratively, structure into design documents |
 
 ## Tools (Layer 3)
 
@@ -97,7 +97,7 @@ Generate a continuous pipeline of high-impact, feasible feature ideas that keep 
 | Stage | Behavior |
 |-------|----------|
 | Stage 1: POC (0-100 users) | All ideas are innovation. No separate process needed. |
-| **Stage 2: Early Product (100-1000 users) — NOW** | **One brainstorm per week. Ideas must be feasible within current architecture (monolith, Supabase, Railway). No proposals requiring new infrastructure. Focus on "10x features with 1x effort."** |
+| Stage 2: Early Product (100-1000 users) | One brainstorm per week. Ideas must be feasible within the current architecture (see `.claude/hive/config.json`). No proposals requiring new infrastructure. Focus on "10x features with 1x effort." |
 | Stage 3: Growth (1000-10000 users) | Can propose infrastructure-requiring features. Innovation sprints monthly. |
 | Stage 4: Scale (10000+ users) | Dedicated innovation time. Prototype budget. Can propose experimental tech. |
 

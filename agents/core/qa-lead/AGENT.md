@@ -47,14 +47,14 @@ Ensure every feature has evidence of correctness, every regression is caught bef
 | `qa/coverage-audit` | Daily — run coverage, identify gaps, trend analysis |
 | `qa/acceptance-check` | Verify features against acceptance criteria |
 | `qa/regression-scan` | Detect test failures, flaky tests, coverage drops |
-| `qa/test-strategy` | Design test approach for new features — which levels, what to mock |
+| `capability:testing-strategy` | Design test approach for new features — which levels, what to mock |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `verify` | Verify claims of completion — run tests, check evidence |
-| `tdd` | Review mode — evaluate test quality, coverage, assertions |
+| `adapter:build.test` + evidence review | Verify claims of completion — run tests, check evidence |
+| `capability:testing-strategy` (review mode) | Evaluate test quality, coverage, assertions |
 
 ## Tools (Layer 3)
 
@@ -78,7 +78,7 @@ Ensure every feature has evidence of correctness, every regression is caught bef
 1. `pnpm nx run test` — test suite results across all projects
 2. `vitest --coverage` — coverage report with branch/line/function breakdown
 3. `.claude/hive/context/qa-lead.md` — coverage trends, known flaky tests, quality metrics
-4. `agents/scrum-master/last-report.md` — what shipped recently (needs QA)
+4. latest standup post in `#daily-standup` — what shipped recently (needs QA)
 5. GH Discussions `#daily-standup` — recent development activity
 6. GH Discussions `#features` — new features needing test strategy
 

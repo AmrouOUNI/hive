@@ -38,25 +38,23 @@ Ensure every design decision respects bounded contexts, layer boundaries, and es
 
 | Skill | When |
 |-------|------|
-| `architecture/adr` | Create/update Architecture Decision Records |
-| `architecture/design-review` | Review proposed designs against patterns |
 | `architecture/dependency-map` | Analyze module coupling, dependency graphs |
 | `architecture/bounded-context-audit` | Verify BC boundaries aren't leaking |
 
-## Client Skills (Layer 2)
+## Capabilities (Layer 2 — via `.claude/hive/skills-map.json`)
 
-| Skill | When |
+| Capability | When |
 |-------|------|
-| `align` | Validate feature against DDD / Clean Architecture |
-| `refine` (review mode) | Verify spec is architecturally sound |
-| `build-plan` (review mode) | Validate task breakdown respects layers |
+| `capability:architecture-decision` | Create/update Architecture Decision Records |
+| `capability:design-review` | Review proposed designs against patterns; verify specs are architecturally sound |
+| `capability:feature-development` | Validate feature scope and task breakdowns respect layers and bounded contexts |
 
 ## Tools (Layer 3)
 
 | Tool | Access | Purpose |
 |------|--------|---------|
 | `codebase search` (grep/glob/read) | Read | Deep code inspection |
-| `nx graph` | Read | Dependency visualization |
+| dependency graph tooling | Read | Dependency visualization (whatever the stack provides) |
 | `docs/adr/*` | Read/Write | ADR management |
 | `gh discussion create/comment` | #architecture, #decisions | Post reviews |
 
@@ -114,7 +112,7 @@ Read `config.json.maturity.stage` before every architectural recommendation.
 
 **Stage 1 (POC):** Monolith only. No distributed patterns. Simple REST. Direct DB access. The architecture is "make it work."
 
-**Stage 2 (Early Product — Gotchi is HERE):** DDD + Clean Architecture is established and correct. CQRS light is sufficient. Event sourcing is premature — use simple state machines. Cache only proven bottlenecks. Background jobs OK, message queues overkill. When proposing a pattern, ask: "Would this be needed at 10x current scale?" If no, defer.
+**Stage 2 (Early Product):** DDD + Clean Architecture is established and correct. CQRS light is sufficient. Event sourcing is premature — use simple state machines. Cache only proven bottlenecks. Background jobs OK, message queues overkill. When proposing a pattern, ask: "Would this be needed at 10x current scale?" If no, defer.
 
 **Stage 3 (Growth):** Extract services along painful bounded context boundaries (not preemptively). Introduce caching strategy. Design sharding plan. Event-driven communication between domains. API versioning becomes mandatory.
 

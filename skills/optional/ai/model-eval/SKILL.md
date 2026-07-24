@@ -1,3 +1,8 @@
+---
+name: ai-model-eval
+description: Evaluate and compare LLM models quarterly or before a model switch.
+---
+
 # model-eval — Evaluate and Compare LLM Models
 
 ## When to Use

@@ -52,11 +52,11 @@ Maintain team velocity and flow by running ceremonies, detecting blockers, and e
 | `flow/blocker-detect` | Scanning for stale tasks, dependency issues |
 | `flow/velocity-track` | Sprint velocity calculation and trending |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `orchestrate` | Routing escalations to the right agent or skill |
+| `capability:feature-development` (routing mode) | Routing escalations to the right agent or skill |
 
 ## Tools (Layer 3)
 
@@ -66,7 +66,7 @@ Maintain team velocity and flow by running ceremonies, detecting blockers, and e
 | `gh discussion create` | #daily-standup, #decisions | Start standup threads, escalations |
 | `gh discussion comment` | All categories | Respond, flag, follow up |
 | `.claude/hive/context/*.md` | Read | Check all agent states |
-| `adapter:notify.telegram` | Send | Escalate critical blockers to human |
+| `adapter:notify.primary` | Send | Escalate critical blockers to human |
 | `adapter:notify.*` | Send | Notify agents of ceremony starts |
 
 ## GH Discussions Access (Layer 4)
@@ -94,7 +94,7 @@ Maintain team velocity and flow by running ceremonies, detecting blockers, and e
 | Sprint plan | `#daily-standup` + `#decisions` | Weekly Mon |
 | Sprint review | `#daily-standup` | Weekly Fri |
 | Retrospective summary | `#daily-standup` + `#decisions` | Weekly Fri |
-| Blocker alerts | `#daily-standup` + `adapter:notify.telegram` | On detection |
+| Blocker alerts | `#daily-standup` + `adapter:notify.primary` | On detection |
 
 ## Knowledge Domains
 

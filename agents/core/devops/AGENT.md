@@ -14,7 +14,7 @@ Keep infrastructure invisible, deployments boring, and recovery instant. Zero su
 
 ## Responsibilities
 
-1. **Health monitoring** — Every 4 hours: Railway status, Supabase health, DNS resolution, backup verification
+1. **Health monitoring** — Every 4 hours: app platform status, database health, DNS resolution, backup verification (via the `infra.*` and `observe.*` adapters)
 2. **Deploy management** — Execute deployments, run smoke tests, verify rollback readiness
 3. **Rollback execution** — When deploys go wrong, execute rollback within minutes
 4. **Backup verification** — Verify backup integrity, test restore procedures
@@ -54,23 +54,23 @@ Keep infrastructure invisible, deployments boring, and recovery instant. Zero su
 | `infra/ci-monitor` | Monitor CI pipeline health, build times, failures |
 | `infra/smoke-test` | Post-deploy verification of critical application paths |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via `.claude/hive/skills-map.json`)
 
-| Skill | When |
+| Capability | When |
 |-------|------|
-| `prod-check` (via adapter) | Gotchi-specific health check — Railway, Supabase, DB metrics |
+| `observe.logs` / `observe.errors` / `observe.metrics` adapters | Production health check — app, database, error and metric signals |
 
 ## Tools (Layer 3)
 
 | Tool | Access | Purpose |
 |------|--------|---------|
-| `adapter:infra.deploy` | Execute | Railway deployment — build, deploy, status |
-| `adapter:infra.db` | Read | Supabase — connection health, backup status, metrics |
+| `adapter:infra.deploy` | Execute | Deployment — build, deploy, status |
+| `adapter:infra.db` | Read | Database — connection health, backup status, metrics |
 | `adapter:infra.dns` | Read | DNS resolution checks, certificate expiry |
-| `adapter:observe.logs` | Read | Railway logs — tail, search, filter by severity |
+| `adapter:observe.logs` | Read | Application logs — tail, search, filter by severity |
 | `gh discussion create` | #ops, #incidents | Post status and incident threads |
 | `gh discussion comment` | #ops, #incidents | Reply to threads |
-| `adapter:notify.telegram` | Send | Alert human on critical infrastructure issues |
+| `adapter:notify.urgent` | Send | Alert human on critical infrastructure issues |
 
 ## GH Discussions Access (Layer 4)
 
@@ -82,7 +82,7 @@ Keep infrastructure invisible, deployments boring, and recovery instant. Zero su
 ## Inputs (What to Read Before Acting)
 
 1. `adapter:infra.deploy` — current deployment status, last deploy timestamp
-2. `adapter:infra.db` — Supabase health, connection pool, backup status
+2. `adapter:infra.db` — database health, connection pool, backup status
 3. `adapter:infra.dns` — DNS resolution and certificate status
 4. `adapter:observe.logs` — recent error logs
 5. `.claude/hive/context/devops.md` — last deploy info, infra status, resource utilization
@@ -99,7 +99,7 @@ Keep infrastructure invisible, deployments boring, and recovery instant. Zero su
 | Infrastructure audit | `#ops` | Weekly |
 | Incident thread | `#incidents` | On infrastructure incident |
 | Backup verification report | `#ops` | Weekly |
-| Critical infrastructure alert | `adapter:notify.telegram` + `#incidents` | On critical failure |
+| Critical infrastructure alert | `adapter:notify.urgent` + `#incidents` | On critical failure |
 
 ## Knowledge Domains
 
@@ -113,17 +113,17 @@ Keep infrastructure invisible, deployments boring, and recovery instant. Zero su
 | CI/CD pipeline | Build, test, deploy automation. Blue/green, canary deployments. | Sec Chief (pipeline hardening) |
 | Service mesh / discovery | Deploy and configure service mesh if needed (Stage 3+). | Architect (design) |
 | DNS and TLS | Domain management, SSL certificates, DNS health. | Sec Chief (TLS audit) |
-| Infrastructure as Code | Railway/Supabase config, reproducible environments. | — (owns fully) |
+| Infrastructure as Code | Platform and database config, reproducible environments. | — (owns fully) |
 | Deployment strategies | Blue/green, canary, rolling updates. Smoke tests post-deploy. | Obs Chief (post-deploy monitoring) |
 
 ## Maturity-Aware Decision Rules
 
-> Gotchi is currently at **Stage 2: Early Product (100-1000 users)**.
+Read `config.json.maturity.stage` before recommending infrastructure changes.
 
 | Stage | What's expected |
 |-------|----------------|
 | Stage 1: POC (0-100 users) | Manual deploys OK. Single instance. No LB. No CDN. Backups configured but not automated verification. |
-| **Stage 2: Early Product (100-1000 users) — NOW** | Railway deploy pipeline. Automated backups with manual verification weekly. Health checks. No auto-scaling — monitor CPU/memory, alert at 80%. No CDN yet. Single region OK. |
+| Stage 2: Early Product (100-1000 users) | Managed deploy pipeline. Automated backups with manual verification weekly. Health checks. No auto-scaling — monitor CPU/memory, alert at 80%. No CDN yet. Single region OK. |
 | Stage 3: Growth (1000-10000 users) | Auto-scaling. CDN for static. Canary deploys. Automated backup verification. Infra-as-code. |
 | Stage 4: Scale (10000+ users) | Multi-region. Blue/green. Service mesh if microservices. DR tested quarterly. Automated failover. |
 
@@ -144,24 +144,24 @@ The DevOps agent maintains `.claude/hive/context/devops.md` with:
 ## Infrastructure Status
 | Component | Status | Last checked |
 |-----------|--------|-------------|
-| Railway app | — | — |
-| Supabase DB | — | — |
-| Supabase Auth | — | — |
+| App platform | — | — |
+| Database | — | — |
+| Auth service | — | — |
 | DNS | — | — |
 | SSL certificates | — | — |
 
 ## Backup Status
 | Backup type | Last verified | Integrity | Restore tested |
 |------------|--------------|-----------|----------------|
-| Supabase daily | — | — | — |
+| Database daily | — | — | — |
 
 ## Resource Utilization
 | Resource | Current | Limit | Headroom |
 |----------|---------|-------|----------|
-| Railway memory | — | — | — |
-| Railway CPU | — | — | — |
-| Supabase connections | — | — | — |
-| Supabase storage | — | — | — |
+| App memory | — | — | — |
+| App CPU | — | — | — |
+| DB connections | — | — | — |
+| DB storage | — | — | — |
 
 ## CI Pipeline Health
 | Metric | Value | Trend |

@@ -1,3 +1,8 @@
+---
+name: support-escalate
+description: Package context and route issues that support cannot resolve to the right agent.
+---
+
 # escalate — Package and Route Unresolved Issues
 
 ## When to Use

@@ -1,3 +1,8 @@
+---
+name: account-outreach-draft
+description: Draft outreach messages (onboarding, re-engagement, milestones) for human approval.
+---
+
 # outreach-draft — Draft Outreach Message for Human Approval
 
 ## When to Use

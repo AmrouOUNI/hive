@@ -1,3 +1,8 @@
+---
+name: product-user-insight
+description: Synthesize user feedback into actionable product insights.
+---
+
 # user-insight — Synthesize User Feedback into Actionable Insights
 
 ## When to Use

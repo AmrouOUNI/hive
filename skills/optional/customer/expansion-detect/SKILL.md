@@ -1,3 +1,8 @@
+---
+name: customer-expansion-detect
+description: Flag tenants showing growth-readiness signals — candidates for upsell or deeper engagement.
+---
+
 # expansion-detect — Identify Expansion Candidates
 
 ## When to Use

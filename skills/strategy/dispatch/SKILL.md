@@ -1,3 +1,8 @@
+---
+name: strategy-dispatch
+description: Turn an approved proposal into assigned work — pick an agent, set priority, track the assignment.
+---
+
 # dispatch — Assign Work to Agents
 
 ## When to Use
@@ -35,7 +40,7 @@ requires: action
 ### Deadline: {if applicable}
 ```
 
-5. Update `agents/cto/context.md` Active Assignments table
+5. Update `.claude/hive/context/cto.md` Active Assignments table
 
 ## Rules
 - Never dispatch to an agent already working on a high-priority task

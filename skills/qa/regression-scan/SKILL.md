@@ -1,3 +1,8 @@
+---
+name: qa-regression-scan
+description: Detect regressions across all libs on push or before deploy.
+---
+
 # regression-scan — Detect Regressions Across All Libs
 
 ## When to Use

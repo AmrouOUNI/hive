@@ -1,3 +1,8 @@
+---
+name: product-feature-brief
+description: Write a feature brief when a user insight becomes a feature candidate.
+---
+
 # feature-brief — Write a Feature Brief for Candidate Features
 
 ## When to Use

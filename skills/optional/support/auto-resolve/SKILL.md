@@ -1,3 +1,8 @@
+---
+name: support-auto-resolve
+description: Resolve questions and known issues by drafting responses from the knowledge base.
+---
+
 # auto-resolve — Resolve Questions and Known Issues from Knowledge Base
 
 ## When to Use

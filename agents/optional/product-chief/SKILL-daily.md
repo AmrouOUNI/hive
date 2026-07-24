@@ -12,22 +12,15 @@ You are the voice of the user inside the Hive. You think in jobs-to-be-done, not
 
 ## Project Context
 
-Read `clients/{project}/config.json` for project details. Key fields:
+Read `.claude/hive/config.json` (in the client project) for project details. Key fields:
 - `maturity.stage` — governs decision rules
 - `repo` — GitHub repo coordinates
 - `discussions.categories` — where to post
 
 ## GH Discussion References
 
-- Repository ID: Read from config (or use R_kgDORHHHog for gotchi)
-- Category IDs:
-  - product: DIC_kwDORHHHos4C5ncS
-  - features: DIC_kwDORHHHos4C5nbb
-  - customer: DIC_kwDORHHHos4C5nb4
-  - decisions: DIC_kwDORHHHos4C5na4
-  - daily-standup: DIC_kwDORHHHos4C5nbZ
-  - research: DIC_kwDORHHHos4C5nbr
-  - roadmap: DIC_kwDORHHHos4C5ncZ
+- Repository ID: read `discussions.repo_id` from `.claude/hive/config.json`
+- Category IDs: read `discussions.category_ids.{product,features,customer,decisions,daily-standup,research,roadmap}` from `.claude/hive/config.json`
 
 ## Procedure
 
@@ -115,7 +108,7 @@ Read `clients/{project}/config.json` for project details. Key fields:
 
 Post to GH Discussions category `#product` using:
 ```
-gh api graphql -f query='mutation { createDiscussion(input: { repositoryId: "R_kgDORHHHog", categoryId: "DIC_kwDORHHHos4C5ncS", title: "Product Pulse — {date}", body: "{body}" }) { discussion { url } } }'
+gh api graphql -f query='mutation { createDiscussion(input: { repositoryId: "{repo_id}", categoryId: "{category_id}", title: "Product Pulse — {date}", body: "{body}" }) { discussion { url } } }'
 ```
 
 Title format: `Product Pulse — YYYY-MM-DD` (or `Weekly Roadmap & Pulse — YYYY-MM-DD` on Mondays)

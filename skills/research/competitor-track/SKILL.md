@@ -1,3 +1,8 @@
+---
+name: research-competitor-track
+description: Deep-track competitor activity during the weekly deep scan.
+---
+
 # competitor-track — Deep-Track Competitor Activity
 
 ## When to Use

@@ -15,7 +15,7 @@ Ensure every layer of the system is hardened against known attack vectors, secre
 ## Responsibilities
 
 1. **Daily security audit** — Run vulnerability scans, dependency checks, secret detection at 06:00
-2. **Auth audit** — Verify Supabase RLS policies match expected access patterns
+2. **Auth audit** — Verify data-access authorization rules (security.auth adapter) match expected access patterns
 3. **Secret scanning** — Detect leaked secrets in code, configs, logs, CI output
 4. **Compliance check** — Ensure OWASP Top 10 coverage, document gaps
 5. **Weekly deep dive** — Tuesday full security review: dependency tree, auth flows, API surface
@@ -45,18 +45,17 @@ Ensure every layer of the system is hardened against known attack vectors, secre
 
 | Skill | When |
 |-------|------|
-| `security/vuln-scan` | Daily scan — dependencies, code patterns, known CVEs |
-| `security/auth-audit` | Verify RLS policies, auth flows, token handling |
-| `security/secret-scan` | Detect secrets in codebase, configs, logs |
-| `security/compliance-check` | OWASP Top 10 coverage, gap analysis |
-| `security/pentest-light` | Monthly lightweight penetration testing — API surface, injection points |
-| `security/incident-security` | Security incident triage, containment, and response |
+| `adapter:security.deps` | Daily scan — dependency vulnerabilities, known CVEs |
+| `adapter:security.secrets` | Detect secrets in codebase, configs, logs |
+| `adapter:security.auth` | Verify data-access authorization rules, auth flows, token handling |
+| `capability:security-review` | Deep audits — OWASP Top 10 coverage, API surface, injection points |
+| `capability:incident-response` | Security incident triage, containment, and response |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `debug` | Investigate vulnerabilities — trace exploit paths, verify root cause |
+| `capability:debug` | Investigate vulnerabilities — trace exploit paths, verify root cause |
 
 ## Tools (Layer 3)
 
@@ -64,7 +63,7 @@ Ensure every layer of the system is hardened against known attack vectors, secre
 |------|--------|---------|
 | `pnpm audit` | Read | Dependency vulnerability scanning |
 | `snyk` | Read | Deep dependency and license analysis |
-| `adapter:security.auth` | Read | Supabase RLS policy inspection |
+| `adapter:security.auth` | Read | Data-access policy inspection |
 | `adapter:security.secrets` | Read | Gitleaks — secret detection in code and history |
 | `codebase search` | Read | Pattern matching for insecure code patterns |
 | `web search` | Read | CVE lookups, security advisory tracking |
@@ -97,7 +96,7 @@ Ensure every layer of the system is hardened against known attack vectors, secre
 | Security incident thread | `#incidents` | On incident |
 | Weekly deep dive report | `#security` | Weekly Tue |
 | Monthly full audit report | `#security` | Monthly 1st Tue |
-| Critical security alert | `adapter:notify.telegram` + `#incidents` | On critical finding |
+| Critical security alert | `adapter:notify.primary` + `#incidents` | On critical finding |
 
 ## Knowledge Domains
 
@@ -116,11 +115,11 @@ Ensure every layer of the system is hardened against known attack vectors, secre
 
 ## Maturity-Aware Decision Rules
 
-> Gotchi is currently at **Stage 2: Early Product (100-1000 users)**.
+> Read the current stage from `.claude/hive/config.json` `maturity.stage`.
 
 | Stage | What's expected |
 |-------|----------------|
-| Stage 1: POC (0-100 users) | Basic auth (Supabase JWT). RLS on key tables. No CVE scanning yet. Acceptable. |
+| Stage 1: POC (0-100 users) | Basic auth. Tenant-level data isolation on key tables. No CVE scanning yet. Acceptable. |
 | **Stage 2: Early Product (100-1000 users) — NOW** | Full auth flow. RLS on ALL tables. Dependency audits weekly. Secret scanning. Medium CVEs patched within 7 days. |
 | Stage 3: Growth (1000-10000 users) | OWASP Top 10 compliance. Pentest-light quarterly. Zero trust principles started. Critical CVEs patched within 24h. |
 | Stage 4: Scale (10000+ users) | Full zero trust. Regular external pentests. SOC 2 compliance. Supply chain security. No unpatched critical CVE ever. |

@@ -1,3 +1,8 @@
+---
+name: performance-perf-audit
+description: Database and API performance audit during the every-4h check or weekly deep dive.
+---
+
 # perf-audit — Database and API Performance Audit
 
 ## When to Use

@@ -1,3 +1,8 @@
+---
+name: performance-capacity-plan
+description: Infrastructure capacity planning at monthly review or on growth signals.
+---
+
 # capacity-plan — Infrastructure Capacity Planning
 
 ## When to Use

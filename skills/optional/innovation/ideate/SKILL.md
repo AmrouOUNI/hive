@@ -1,10 +1,15 @@
+---
+name: innovation-ideate
+description: Weekly synthesis of research, backlog, and customer data into concrete feature ideas.
+---
+
 # ideate — Generate Feature Ideas
 
 ## When to Use
 Innovator runs this weekly on Monday. Synthesizes research, product backlog, and customer data into concrete feature ideas.
 
 ## Inputs
-- Scout's `last-report` (market signals, competitor moves)
+- Scout's latest `#research` posts (market signals, competitor moves)
 - Product Chief's feature backlog
 - Customer data from `#customer` (pain points, requests, churn reasons)
 - Current product maturity stage

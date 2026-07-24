@@ -1,3 +1,8 @@
+---
+name: customer-health-score
+description: Weekly 0-100 health score per tenant with color-coded status.
+---
+
 # health-score — Calculate Per-Org Health Score
 
 ## When to Use

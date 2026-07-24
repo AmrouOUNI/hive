@@ -1,3 +1,8 @@
+---
+name: account-engagement-report
+description: Weekly per-tenant engagement summary with lifecycle classification.
+---
+
 # engagement-report — Weekly Per-Org Engagement Report
 
 ## When to Use

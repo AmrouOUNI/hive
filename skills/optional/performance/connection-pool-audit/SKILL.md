@@ -1,3 +1,8 @@
+---
+name: performance-connection-pool-audit
+description: Audit database connection pool usage during checks or when connection errors appear.
+---
+
 # connection-pool-audit — Database Connection Pool Audit
 
 ## When to Use

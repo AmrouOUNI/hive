@@ -1,18 +1,23 @@
+---
+name: infra-infra-audit
+description: Every-4h health check and weekly deep audit of infrastructure — services, database, DNS, SSL, and resource utilization.
+---
+
 # infra-audit — Infrastructure Health Audit
 
 ## When to Use
 DevOps uses this when running the every-4h health check or during weekly deep audit.
 
 ## Inputs
-- Railway service status
-- Supabase project status
+- Service status via the `infra.deploy` adapter — see `.claude/hive/adapters/infra-deploy.md`
+- Database status via the `infra.db` adapter — see `.claude/hive/adapters/infra-db.md`
 - DNS and SSL configuration
-- Resource utilization metrics (CPU, memory, disk)
+- Resource utilization metrics (CPU, memory, disk) via the `observe.metrics` adapter
 
 ## Procedure
 
-1. Check Railway service status (all services healthy)
-2. Check Supabase project status (database accessible, auth functional)
+1. Check service status via the `infra.deploy` adapter (all services healthy)
+2. Check database status via the `infra.db` adapter (database accessible, auth functional)
 3. Verify DNS resolution for all configured domains
 4. Check SSL certificate expiry dates — warn if < 30 days
 5. Check resource utilization (CPU, memory, disk) for each service
@@ -30,8 +35,8 @@ requires: {ack | action}
 
 ## Infrastructure Audit
 
-### Railway: {healthy | degraded | down}
-### Supabase: {healthy | degraded | down}
+### Services: {healthy | degraded | down}
+### Database: {healthy | degraded | down}
 ### DNS: {all resolving | issues found}
 ### SSL Expiry: {nearest expiry date and domain}
 ### Resource Utilization:

@@ -1,3 +1,8 @@
+---
+name: data-weekly-insights
+description: Surface the top unsolicited insights from the past week for the team.
+---
+
 # weekly-insights — Compile Unsolicited Weekly Insights
 
 ## When to Use

@@ -1,3 +1,8 @@
+---
+name: infra-ci-monitor
+description: Monitor CI pipeline status on push and during regular health checks.
+---
+
 # ci-monitor — Monitor CI Pipeline Status
 
 ## When to Use

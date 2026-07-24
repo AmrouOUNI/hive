@@ -12,17 +12,15 @@ You are obsessed with prompt quality and token efficiency. Every wasted token is
 
 ## Project Context
 
-Read `clients/{project}/config.json` for project details. Key fields:
+Read `.claude/hive/config.json` (in the client project) for project details. Key fields:
 - `maturity.stage` — governs decision rules
 - `repo` — GitHub repo coordinates
 - `discussions.categories` — where to post
 
 ## GH Discussion References
 
-- Repository ID: Read from config (or use R_kgDORHHHog for gotchi)
-- Category IDs:
-  - research: DIC_kwDORHHHos4C5nbr
-  - daily-standup: DIC_kwDORHHHos4C5nbZ
+- Repository ID: read `discussions.repo_id` from `.claude/hive/config.json`
+- Category IDs: read `discussions.category_ids.{research,daily-standup}` from `.claude/hive/config.json`
 
 ## Procedure
 
@@ -44,7 +42,7 @@ Read `clients/{project}/config.json` for project details. Key fields:
 
 4. **Cost trend analysis** — Compile 7-day cost trends:
    - Total estimated cost and trend vs baseline
-   - Cost per enrichment and per conversation
+   - Cost per core operation and per conversation
    - Any cost spikes, unexpected usage patterns, or budget concerns
    - Operations where token usage exceeds baseline by >20%
 
@@ -95,7 +93,7 @@ Read `clients/{project}/config.json` for project details. Key fields:
 
 Post to GH Discussions category `#research` using:
 ```
-gh api graphql -f query='mutation { createDiscussion(input: { repositoryId: "R_kgDORHHHog", categoryId: "DIC_kwDORHHHos4C5nbr", title: "Weekly AI Pipeline Review — {date}", body: "{body}" }) { discussion { url } } }'
+gh api graphql -f query='mutation { createDiscussion(input: { repositoryId: "{repo_id}", categoryId: "{category_id}", title: "Weekly AI Pipeline Review — {date}", body: "{body}" }) { discussion { url } } }'
 ```
 
 Title format: `Weekly AI Pipeline Review — YYYY-MM-DD`
@@ -109,7 +107,7 @@ Body format:
 |--------|-----------|-----------|-------|--------|
 | Total token usage | | | | |
 | Total cost | | | | |
-| Cost per enrichment | | | | |
+| Cost per core operation | | | | |
 | Cost per conversation | | | | |
 
 ### Operations Breakdown
@@ -151,5 +149,5 @@ Body format:
 - Verify `gh auth status` uses the correct account before posting
 - If gh auth is wrong, output report to stdout instead
 - If no metrics adapter is available, analyze code-level token usage estimates instead
-- At Stage 2 maturity: no model switching (GPT-4o for everything), no RAG yet, focus on prompt optimization and cost tracking
+- At Stage 2 maturity: no model switching (one default model for everything), no RAG yet, focus on prompt optimization and cost tracking
 - Do NOT recommend model switches without data — benchmark first, recommend second

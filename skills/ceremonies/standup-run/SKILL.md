@@ -1,3 +1,8 @@
+---
+name: ceremonies-standup-run
+description: Daily standup — aggregate all agent activity from the last 24 hours into a unified post.
+---
+
 # standup-run — Run Daily Standup
 
 ## When to Use

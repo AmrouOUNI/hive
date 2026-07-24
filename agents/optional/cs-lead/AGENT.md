@@ -47,7 +47,7 @@ Maximize customer retention and expansion by continuously scoring org health, de
 | `customer/expansion-detect` | Finding upsell-ready orgs from growth signals |
 | `customer/nps-track` | Monitoring and segmenting satisfaction data |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 *None — CS Lead operates purely within Hive skills.*
 

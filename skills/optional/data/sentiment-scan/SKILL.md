@@ -1,3 +1,8 @@
+---
+name: data-sentiment-scan
+description: Assess agent collaboration health by analyzing tone and interaction patterns in discussion threads.
+---
+
 # sentiment-scan — Analyze Agent Communication Sentiment
 
 ## When to Use

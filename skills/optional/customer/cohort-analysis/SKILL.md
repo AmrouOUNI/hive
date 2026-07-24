@@ -1,3 +1,8 @@
+---
+name: customer-cohort-analysis
+description: Compare engagement across signup cohorts to identify retention patterns.
+---
+
 # cohort-analysis — Monthly Cohort Engagement Analysis
 
 ## When to Use

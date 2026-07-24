@@ -1,3 +1,8 @@
+---
+name: data-kpi-dashboard
+description: Daily collection and formatting of all KPIs with trend comparisons.
+---
+
 # kpi-dashboard — Daily KPI Dashboard
 
 ## When to Use

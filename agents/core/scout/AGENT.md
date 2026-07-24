@@ -49,7 +49,7 @@ Continuously scan the competitive landscape, market trends, and emerging opportu
 | `research/partnership-scout` | Evaluate integration and distribution opportunities |
 | `research/source-evaluate` | Rate source reliability, verify claims, flag unconfirmed info |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|

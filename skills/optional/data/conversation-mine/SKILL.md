@@ -1,15 +1,20 @@
+---
+name: data-conversation-mine
+description: Weekly mining of conversational-interface logs for user behavior patterns, friction points, and feature discovery insights.
+---
+
 # conversation-mine — Analyze Bot Conversation Patterns
 
 ## When to Use
-Data Analyst uses this weekly to mine bot conversations (Telegram/WhatsApp) for user behavior patterns, friction points, and feature discovery insights.
+Data Analyst uses this weekly to mine the product's conversational-interface logs (chat/bot channels) for user behavior patterns, friction points, and feature discovery insights.
 
 ## Inputs
-- Bot conversation logs (Telegram/WhatsApp)
+- Conversation logs via the `customer.activity` adapter — see `.claude/hive/adapters/customer-activity.md`
 - Feature usage mapping (which conversation patterns map to which features)
 
 ## Procedure
 
-1. Pull all bot conversations from the past week
+1. Pull all conversations from the past week via the `customer.activity` adapter
 2. Analyze conversation patterns:
    - **Most common requests**: What do users ask for most frequently?
    - **Friction points**: Where do users get stuck, retry, or abandon?

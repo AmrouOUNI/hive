@@ -1,3 +1,8 @@
+---
+name: innovation-impact-estimate
+description: Estimate the user and business impact of a proposed feature to produce a priority recommendation.
+---
+
 # impact-estimate — Estimate Feature Impact
 
 ## When to Use

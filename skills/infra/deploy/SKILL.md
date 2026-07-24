@@ -1,3 +1,8 @@
+---
+name: infra-deploy
+description: Deploy to production after CTO approval, with verification steps.
+---
+
 # deploy — Deploy to Production
 
 ## When to Use

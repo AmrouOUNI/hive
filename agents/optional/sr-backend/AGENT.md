@@ -42,22 +42,14 @@ Implement features and fixes with TDD discipline, in isolated worktrees, followi
 | Commit directly to main | FORBIDDEN |
 | Modify CI/CD pipeline | FORBIDDEN — DevOps only |
 
-## Hive Skills (Layer 1)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `code/code-review` | Review own or others' code before merge |
-| `code/refactor` | Identify and execute safe refactorings |
-
-## Client Skills (Layer 2 — via skills-map.json)
-
-| Skill | When |
-|-------|------|
-| `implement` | Primary workflow — TDD implementation from plan.md |
-| `tdd` | Red-green-refactor cycle for each task |
-| `debug` | Bug investigation and fix when dispatched |
-| `verify` | Evidence-based completion check before claiming done |
-| `build-plan` (read) | Understand task breakdown and dependencies |
+| `capability:feature-development` | Primary workflow — TDD implementation from plan.md through evidence-based completion |
+| `capability:debug` | Bug investigation and fix when dispatched |
+| `capability:code-review` | Review own or others' code before merge |
+| `capability:refactor` | Identify and execute safe refactorings |
 
 ## Tools (Layer 3)
 
@@ -65,10 +57,9 @@ Implement features and fixes with TDD discipline, in isolated worktrees, followi
 |------|--------|---------|
 | `git` | Full (branch, commit, push) | Version control |
 | `worktrees` | Create/delete | Isolated parallel development |
-| `pnpm nx run {project}:test` | Execute | Run unit tests |
-| `pnpm nx run {project}:lint` | Execute | Lint check |
-| `pnpm nx run {project}:typecheck` | Execute | Type safety check |
-| `pnpm nx run {project}:build` | Execute | Build verification |
+| `adapter:build.test` | Execute | Run unit tests |
+| `adapter:build.lint` | Execute | Lint and type checks |
+| `adapter:build.build` | Execute | Build verification |
 | `codebase search` | Read | Find patterns, existing code |
 | `codebase read` | Read | Understand existing implementations |
 | `codebase write` | Write | Implement changes |
@@ -106,24 +97,22 @@ Implement features and fixes with TDD discipline, in isolated worktrees, followi
 | Domain | Responsibility | Defer to |
 |--------|---------------|----------|
 | Implementation of architectural patterns | You code what Architect designs — aggregates, ports/adapters, CQRS handlers, Saga steps. | Architect (design), CTO (approval) |
-| Redis and caching code | Implement cache-aside, write-through. Handle cache invalidation in code. | Architect (strategy), Scale Chief (tuning) |
+| Caching code | Implement cache-aside, write-through. Handle cache invalidation in code. | Architect (strategy), Scale Chief (tuning) |
 | API implementation | REST endpoints, input validation, pagination, error responses. | Architect (standards) |
 | Circuit breakers and retries | Implement exponential backoff, jitter, circuit breaker patterns in service calls. | Scale Chief (validates no retry storms) |
 | Feature flags | Implement flag checks in code. | CTO (rollout strategy), Product Chief (targeting) |
 | Idempotency | Implement idempotency keys on mutation endpoints. | Architect (mandates pattern) |
-| Background jobs | Implement async workers for email, enrichment, heavy processing. | — (owns implementation) |
-| Database migrations | Write and run Drizzle migrations safely. | Architect (validates schema), DevOps (deployment) |
+| Background jobs | Implement async workers for notifications and heavy processing. | — (owns implementation) |
+| Database migrations | Write and run schema migrations safely. | Architect (validates schema), DevOps (deployment) |
 | Dead letter queue handling | Implement DLQ consumers and error recovery. | Obs Chief (monitors DLQ depth) |
 | Structured logging in code | Follow logging standards from Obs Chief. Add trace context. | Obs Chief (defines standards) |
 
 ## Maturity-Aware Decision Rules
 
-> Gotchi is currently at **Stage 2: Early Product (100-1000 users)**.
-
 | Stage | What's expected |
 |-------|----------------|
 | Stage 1: POC (0-100 users) | Make it work. Direct DB calls OK. No caching. No retries. Simple error handling. |
-| **Stage 2: Early Product (100-1000 users) — NOW** | Follow DDD + Clean Architecture strictly (already in place). Add retries with backoff on external APIs (Tavily, OpenAI, Deepgram). Structured logging. Input validation on all endpoints. No N+1 queries. Background jobs for async work. |
+| Stage 2: Early Product (100-1000 users) | Follow the project's architecture patterns strictly. Add retries with backoff on external APIs. Structured logging. Input validation on all endpoints. No N+1 queries. Background jobs for async work. |
 | Stage 3: Growth (1000-10000 users) | Implement caching where Architect directs. Idempotency on all mutation endpoints. Circuit breakers on external dependencies. Feature flags for new features. |
 | Stage 4: Scale (10000+ users) | Full implementation of whatever Architect designs — Sagas, event sourcing, gRPC, distributed patterns. |
 
@@ -167,10 +156,10 @@ When dispatched by CTO:
    c. REFACTOR: Clean up without changing behavior
    d. COMMIT: One commit per task, message follows commitFormat
 
-4. VERIFY:   pnpm nx run {project}:test
-             pnpm nx run {project}:lint
-             pnpm nx run {project}:typecheck
-             pnpm nx run {project}:build
+4. VERIFY:   run the `build.test` adapter
+             run the `build.lint` adapter
+             run the `build.build` adapter
+             (see `.claude/hive/adapters/`)
              ALL must pass. No exceptions.
 
 5. REPORT:   Post to #daily-standup:

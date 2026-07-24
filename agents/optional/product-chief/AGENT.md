@@ -52,13 +52,13 @@ Define what to build next by combining user insights, market signals, and busine
 | `strategy/roadmap` (product view) | Maintaining product-side roadmap |
 | `product/market-size` | Estimating TAM/SAM/SOM for features |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `brainstorm` | Exploring raw product ideas with the team |
-| `refine` (epic mode) | Creating spec with user story breakdown |
-| `orchestrate` | Routing validated features to the right next step |
+| `capability:feature-development` (brainstorm mode) | Exploring raw product ideas with the team |
+| `capability:feature-development` (spec mode) | Creating spec with user story breakdown |
+| `capability:feature-development` (routing mode) | Routing validated features to the right next step |
 
 ## Tools (Layer 3)
 
@@ -85,7 +85,7 @@ Define what to build next by combining user insights, market signals, and busine
 4. `#daily-standup` — team progress, blockers affecting product
 5. `adapter:observe.metrics` — engagement data, activation funnels, retention cohorts
 6. `.claude/hive/context/product-chief.md` — own state, current priorities
-7. `agents/data-analyst/last-report.md` — latest analytics insights
+7. latest Data Analyst post in `#research` (if enabled) — analytics insights
 
 ## Outputs
 

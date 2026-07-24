@@ -1,3 +1,8 @@
+---
+name: performance-cache-strategy
+description: Recommend a caching strategy for proven-slow, frequently accessed queries.
+---
+
 # cache-strategy — Recommend Caching Strategy for Hot Queries
 
 ## When to Use

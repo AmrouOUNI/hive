@@ -1,3 +1,8 @@
+---
+name: qa-coverage-audit
+description: Audit test coverage against thresholds at the daily checkpoint or after a sprint.
+---
+
 # coverage-audit — Audit Test Coverage Against Thresholds
 
 ## When to Use

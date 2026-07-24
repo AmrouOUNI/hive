@@ -12,24 +12,24 @@
 ## Infrastructure Status
 | Component | Status | Last checked |
 |-----------|--------|-------------|
-| Railway app | — | — |
-| Supabase DB | — | — |
-| Supabase Auth | — | — |
+| App platform | — | — |
+| Database | — | — |
+| Auth service | — | — |
 | DNS | — | — |
 | SSL certificates | — | — |
 
 ## Backup Status
 | Backup type | Last verified | Integrity | Restore tested |
 |------------|--------------|-----------|----------------|
-| Supabase daily | — | — | — |
+| Database daily | — | — | — |
 
 ## Resource Utilization
 | Resource | Current | Limit | Headroom |
 |----------|---------|-------|----------|
-| Railway memory | — | — | — |
-| Railway CPU | — | — | — |
-| Supabase connections | — | — | — |
-| Supabase storage | — | — | — |
+| App memory | — | — | — |
+| App CPU | — | — | — |
+| DB connections | — | — | — |
+| DB storage | — | — | — |
 
 ## CI Pipeline Health
 | Metric | Value | Trend |

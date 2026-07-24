@@ -1,3 +1,8 @@
+---
+name: strategy-prioritize
+description: Score and rank backlog items using the RICE framework.
+---
+
 # prioritize — Score & Rank Work Items
 
 ## When to Use
@@ -5,7 +10,7 @@ CTO or Product Chief uses this to score and rank backlog items using RICE framew
 
 ## Inputs
 - List of proposals/features from GH Discussions `#features` or `#decisions`
-- Current roadmap context from `agents/cto/context.md`
+- Current roadmap context from `.claude/hive/context/cto.md`
 
 ## Procedure
 

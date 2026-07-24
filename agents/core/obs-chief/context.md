@@ -6,8 +6,8 @@
 | Error rate | TBD | — | — |
 | P95 latency | TBD | — | — |
 | DB connections | TBD | — | — |
-| Railway memory | TBD | — | — |
-| Enrichment success rate | TBD | — | — |
+| App memory | TBD | — | — |
+| Key business metric | TBD | — | — |
 
 ## Open Incidents
 | ID | Severity | Summary | Status | Assigned to |

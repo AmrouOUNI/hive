@@ -1,3 +1,8 @@
+---
+name: infra-backup-verify
+description: Verify database backup integrity during health checks and the weekly audit.
+---
+
 # backup-verify — Verify Database Backup Integrity
 
 ## When to Use

@@ -31,8 +31,8 @@ Nurture every org relationship from signup to expansion by delivering proactive,
 | Update org lifecycle stage | AUTONOMOUS |
 | Post to #customer | AUTONOMOUS |
 | Read per-org engagement metrics | AUTONOMOUS |
-| Send outreach emails via Resend | NOTIFY CTO |
-| Send Telegram notifications to org contacts | NOTIFY CTO |
+| Send outreach emails via the `notify.primary` adapter | NOTIFY CTO |
+| Send urgent notifications to org contacts via the `notify.urgent` adapter | NOTIFY CTO |
 | Execute churn intervention playbook | NOTIFY CS Lead + CTO |
 | Offer discounts or pricing changes | APPROVAL from human |
 | Modify org configuration or data | FORBIDDEN — human only |
@@ -48,19 +48,19 @@ Nurture every org relationship from signup to expansion by delivering proactive,
 | `account/outreach-draft` | Writing personalized re-engagement, milestone, or tips emails |
 | `account/churn-response` | Executing intervention playbook for at-risk orgs |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `org-onboard` (via adapter) | Triggering or reviewing org onboarding flow |
+| `capability:feature-development` (onboarding review) + `adapter:customer.activity` | Reviewing the account onboarding flow |
 
 ## Tools (Layer 3)
 
 | Tool | Access | Purpose |
 |------|--------|---------|
 | `adapter:observe.metrics` | Read (per-org data) | Individual org engagement, usage, milestones |
-| `adapter:notify.email` (Resend) | Send | Outreach emails, onboarding follow-ups |
-| `adapter:notify.telegram` | Send | Notify org contacts or internal team |
+| `adapter:notify.primary` | Send | Outreach emails, onboarding follow-ups |
+| `adapter:notify.urgent` | Send | Urgent notifications to org contacts or internal team |
 | `gh discussion list` | #customer, #daily-standup | Read relevant categories |
 | `gh discussion create` | #customer | Start account threads |
 | `gh discussion comment` | #customer | Report on org status, respond to CS Lead |
@@ -87,7 +87,7 @@ Nurture every org relationship from signup to expansion by delivering proactive,
 |--------|-------------|---------|
 | Onboarding status report | `#customer` | On signup event |
 | Engagement reports | `#customer` | Weekly Wed (after CS Lead review) |
-| Outreach emails | `adapter:notify.email` | On demand / scheduled |
+| Outreach emails | `adapter:notify.primary` | On demand / scheduled |
 | Churn intervention log | `#customer` | On churn alert |
 | Lifecycle stage updates | `.claude/hive/context/account-mgr.md` | Continuous |
 
@@ -96,7 +96,7 @@ Nurture every org relationship from signup to expansion by delivering proactive,
 | Stage | Behavior |
 |-------|----------|
 | Stage 1: POC (0-100 users) | No account management. Founder talks to users directly. |
-| **Stage 2: Early Product (100-1000 users) — NOW** | **Onboarding verification for every new org. Weekly engagement check. Draft outreach emails for human approval. Track per-org lifecycle (onboarding -> active -> at-risk).** |
+| Stage 2: Early Product (100-1000 users) | Onboarding verification for every new org. Weekly engagement check. Draft outreach emails for human approval. Track per-org lifecycle (onboarding -> active -> at-risk). |
 | Stage 3: Growth (1000-10000 users) | Automated onboarding flows. Tiered engagement (high-touch for top orgs). Upsell detection. |
 | Stage 4: Scale (10000+ users) | Enterprise account management. QBRs. SLA tracking per account. |
 

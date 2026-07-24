@@ -1,3 +1,8 @@
+---
+name: data-cross-agent-analysis
+description: Find correlations across agent domains that no single agent would see alone.
+---
+
 # cross-agent-analysis — Detect Cross-Domain Correlations
 
 ## When to Use
@@ -5,13 +10,13 @@ Data Analyst uses this every 6 hours to find correlations across agent domains t
 
 ## Inputs
 - All `agents/*/context.md` files (current state of each agent)
-- All `agents/*/last-report.md` files (latest output from each agent)
+- Latest GH Discussion post from each agent
 - Deployment logs
 - Incident history
 
 ## Procedure
 
-1. Read all agent context and last-report files
+1. Read all agent context files (`.claude/hive/context/*.md`) and their latest GH Discussion posts
 2. Build a timeline of recent events across all domains:
    - Deployments (from devops/sr-backend)
    - Error spikes (from observability)

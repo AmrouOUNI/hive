@@ -1,3 +1,8 @@
+---
+name: support-ticket-triage
+description: Classify, severity-rate, and route every new incoming support issue.
+---
+
 # ticket-triage — Classify and Route Incoming Support Issues
 
 ## When to Use

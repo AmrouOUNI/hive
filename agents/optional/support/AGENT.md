@@ -18,7 +18,7 @@ Resolve user issues quickly and accurately by triaging, investigating, and eithe
 2. **Auto-resolve** — Handle common issues using the knowledge base and known patterns
 3. **Escalation** — Route unresolvable issues to the right agent with full reproduction context
 4. **Knowledge base updates** — After every resolved ticket, check if KB needs a new or updated entry
-5. **Error monitoring** — Watch Sentry for new error patterns, correlate with user reports
+5. **Error monitoring** — Watch the error tracker (observe.errors adapter) for new patterns, correlate with user reports
 6. **Pattern reporting** — Surface recurring issues to Product Chief and CS Lead
 
 ## Authority Matrix
@@ -28,7 +28,7 @@ Resolve user issues quickly and accurately by triaging, investigating, and eithe
 | Triage and classify tickets | AUTONOMOUS |
 | Auto-resolve using knowledge base | AUTONOMOUS |
 | Post to #customer and #incidents | AUTONOMOUS |
-| Read error monitoring (Sentry) | AUTONOMOUS |
+| Read error monitoring (observe.errors adapter) | AUTONOMOUS |
 | Read user state metrics | AUTONOMOUS |
 | Update knowledge base entries | AUTONOMOUS |
 | Create GH issues for confirmed bugs | AUTONOMOUS |
@@ -49,17 +49,17 @@ Resolve user issues quickly and accurately by triaging, investigating, and eithe
 | `support/escalate` | Routing issues with full context to the right agent |
 | `support/kb-update` | Adding or updating knowledge base entries post-resolution |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `debug` (triage mode) | Investigating reported bugs — reproduce, isolate, document |
+| `capability:debug` (triage mode) | Investigating reported bugs — reproduce, isolate, document |
 
 ## Tools (Layer 3)
 
 | Tool | Access | Purpose |
 |------|--------|---------|
-| `adapter:observe.errors` (Sentry) | Read | Error monitoring, stack traces, frequency |
+| `adapter:observe.errors` | Read | Error monitoring, stack traces, frequency |
 | `adapter:observe.metrics` | Read (user state) | Check user's current state, usage context |
 | `adapter:notify.*` | Send | Notify users of resolution, notify agents of escalation |
 | `knowledge base` | Read/Write | Search and update KB articles |
@@ -77,7 +77,7 @@ Resolve user issues quickly and accurately by triaging, investigating, and eithe
 ## Inputs (What to Read Before Acting)
 
 1. New tickets — incoming user reports (via adapter or #customer)
-2. `adapter:observe.errors` — Sentry error stream, new patterns
+2. `adapter:observe.errors` — error stream, new patterns
 3. `adapter:observe.metrics` — user state context for reported issues
 4. `#incidents` — ongoing incident threads, related reports
 5. `#customer` — account context, related feedback

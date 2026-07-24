@@ -1,3 +1,8 @@
+---
+name: innovation-feasibility
+description: Assess technical feasibility of a proposed feature after ideation.
+---
+
 # feasibility — Assess Feature Feasibility
 
 ## When to Use

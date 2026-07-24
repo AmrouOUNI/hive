@@ -1,10 +1,15 @@
+---
+name: infra-scale-action
+description: Execute an infrastructure scaling change with cost check, approval gate, and capacity verification.
+---
+
 # scale-action — Execute Infrastructure Scaling
 
 ## When to Use
-DevOps uses this when Scale Chief identifies a need to scale, or auto-scaling triggers fire.
+DevOps uses this when a scaling need is identified (by the scale-chief agent if enabled — see config.json `agents`), or auto-scaling triggers fire.
 
 ## Inputs
-- Scaling recommendation from Scale Chief (resource, direction, amount)
+- Scaling recommendation (resource, direction, amount)
 - Current resource utilization metrics
 - Cost projection for the scaling change
 - Current maturity stage
@@ -14,7 +19,7 @@ DevOps uses this when Scale Chief identifies a need to scale, or auto-scaling tr
 1. Verify the scaling recommendation: what resource, direction (up/down), by how much
 2. Check cost implications of the change (calculate percentage increase/decrease)
 3. If cost increase > 20%, require CTO approval before proceeding
-4. Execute scaling via adapter (Railway instance resize or replica addition)
+4. Execute scaling via the `infra.deploy` adapter (instance resize or replica addition) — see `.claude/hive/adapters/infra-deploy.md`
 5. Verify new capacity is active and healthy
 6. Update infra status in `context.md` with new resource levels
 7. Post to #ops:

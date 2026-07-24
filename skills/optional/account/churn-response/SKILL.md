@@ -1,3 +1,8 @@
+---
+name: account-churn-response
+description: Produce a retention action plan for a churn-risk tenant, for human approval.
+---
+
 # churn-response — Generate Retention Action Plan
 
 ## When to Use

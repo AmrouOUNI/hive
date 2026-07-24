@@ -1,3 +1,8 @@
+---
+name: innovation-prototype-brief
+description: Write a concise prototype brief for high-feasibility, high-impact feature ideas.
+---
+
 # prototype-brief — Write Prototype Brief
 
 ## When to Use

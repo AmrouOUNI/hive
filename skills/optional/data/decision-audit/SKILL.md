@@ -1,3 +1,8 @@
+---
+name: data-decision-audit
+description: Monthly audit of past decisions — score outcomes and identify decision-making patterns.
+---
+
 # decision-audit — Review Decision Outcomes
 
 ## When to Use

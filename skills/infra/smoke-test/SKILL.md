@@ -1,3 +1,8 @@
+---
+name: infra-smoke-test
+description: Post-deploy smoke test verifying the release is healthy.
+---
+
 # smoke-test — Post-Deploy Smoke Test
 
 ## When to Use

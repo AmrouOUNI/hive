@@ -51,13 +51,13 @@ Maximize AI pipeline quality while minimizing token cost. Every prompt should be
 | `ai/rag-quality` | Evaluate retrieval accuracy, relevance, context utilization |
 | `ai/prompt-optimize` | Reduce token usage while maintaining or improving output quality |
 
-## Client Skills (Layer 2 — via skills-map.json)
+## Capabilities (Layer 2 — via skills-map.json)
 
 | Skill | When |
 |-------|------|
-| `implement` | Implement AI features — prompts, pipelines, tool definitions |
-| `tdd` | Test-driven development for AI pipelines — eval suites |
-| `debug` | Debug AI quality issues — trace prompt chains, inspect outputs |
+| `capability:feature-development` | Implement AI features — prompts, pipelines, tool definitions |
+| `capability:testing-strategy` | Eval suites and test planning for AI pipelines |
+| `capability:debug` | Debug AI quality issues — trace prompt chains, inspect outputs |
 
 ## Tools (Layer 3)
 
@@ -106,17 +106,15 @@ Maximize AI pipeline quality while minimizing token cost. Every prompt should be
 | RAG pipeline quality | Retrieval accuracy, chunk sizing, embedding model selection. | Architect (pipeline architecture) |
 | AI pipeline reliability | Retry logic, fallback models, graceful degradation on API failures. | Sr Backend (implementation patterns) |
 | Token budget management | Set max_tokens per operation type. Monitor drift. | CTO (overall budget) |
-| Enrichment accuracy | Measure extraction precision/recall on known examples. Track drift. | — (owns fully) |
-| Voice/image pipeline | Deepgram transcription quality, GPT-4o vision accuracy. | — (owns fully) |
+| Output accuracy | Measure pipeline precision/recall on known examples. Track drift. | — (owns fully) |
+| Multimodal pipeline | Transcription and vision output quality for any speech/image models in use. | — (owns fully) |
 
 ## Maturity-Aware Decision Rules
-
-> Gotchi is currently at **Stage 2: Early Product (100-1000 users)**.
 
 | Stage | What's expected |
 |-------|----------------|
 | Stage 1: POC (0-100 users) | Single model, no optimization. Ship the feature. |
-| **Stage 2: Early Product (100-1000 users) — NOW** | Track cost per enrichment, per conversation. Optimize prompts for token efficiency. Measure enrichment accuracy monthly. Retry with backoff on OpenAI/Tavily failures. No RAG yet — direct API calls. No model switching — GPT-4o for everything. |
+| Stage 2: Early Product (100-1000 users) | Track cost per core operation, per conversation. Optimize prompts for token efficiency. Measure output accuracy monthly. Retry with backoff on provider API failures. No RAG yet — direct API calls. No model switching — one default model for everything. |
 | Stage 3: Growth (1000-10000 users) | Prompt A/B testing. Model evaluation pipeline. RAG for knowledge base. Cost targets per operation. |
 | Stage 4: Scale (10000+ users) | Multi-model routing (cheap model for simple, expensive for complex). Fine-tuned models. Automated quality regression detection. |
 

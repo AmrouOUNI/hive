@@ -1,3 +1,8 @@
+---
+name: research-market-scan
+description: Scan the market for relevant news and signals on the every-12h cycle.
+---
+
 # market-scan — Scan Market for Relevant News and Signals
 
 ## When to Use

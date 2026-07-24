@@ -1,3 +1,8 @@
+---
+name: ai-prompt-audit
+description: Audit LLM prompts for quality and efficiency after prompt changes.
+---
+
 # prompt-audit — Audit LLM Prompts for Quality and Efficiency
 
 ## When to Use

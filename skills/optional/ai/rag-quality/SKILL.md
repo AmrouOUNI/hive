@@ -1,3 +1,8 @@
+---
+name: ai-rag-quality
+description: Check RAG retrieval quality when RAG is implemented.
+---
+
 # rag-quality — RAG Retrieval Quality Check
 
 ## When to Use

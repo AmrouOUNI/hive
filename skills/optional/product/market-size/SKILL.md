@@ -1,3 +1,8 @@
+---
+name: product-market-size
+description: Quick TAM/SAM/SOM estimation for a feature or segment to judge whether a market is worth pursuing.
+---
+
 # market-size — Estimate Market Size for Features or Segments
 
 ## When to Use
@@ -15,7 +20,7 @@ Product Chief uses this quarterly or when evaluating major feature decisions.
    - How many companies/professionals exist in this segment?
    - Use web search for industry data
 3. Estimate SAM (Serviceable Addressable Market):
-   - How many of those could realistically use gotchi?
+   - How many of those could realistically use the product?
    - Filter by geography, company size, tech-savviness
 4. Estimate SOM (Serviceable Obtainable Market):
    - How many could we realistically capture in 12-18 months?

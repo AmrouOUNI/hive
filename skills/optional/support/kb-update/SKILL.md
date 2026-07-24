@@ -1,3 +1,8 @@
+---
+name: support-kb-update
+description: Capture the resolution of a novel issue as a knowledge base entry.
+---
+
 # kb-update — Add New Entry to Knowledge Base
 
 ## When to Use

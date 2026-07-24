@@ -1,3 +1,8 @@
+---
+name: performance-n-plus-one-detect
+description: Detect N+1 query patterns via static ORM analysis and runtime log inspection, with specific fixes per finding.
+---
+
 # n-plus-one-detect — Detect N+1 Query Patterns
 
 ## When to Use
@@ -5,16 +10,16 @@ Scale Chief uses this during the every-4h check or during code review.
 
 ## Inputs
 - Codebase source files (ORM query patterns)
-- Recent Railway/application logs
+- Recent application logs via the `observe.logs` adapter
 - Recent code changes (for review context)
 
 ## Procedure
 
 1. Search codebase for ORM patterns that lazy-load relations:
-   - `findMany` without `include` or explicit joins
+   - Relation fetches without eager loading (`include` / explicit joins)
    - Nested loops with individual queries inside
-   - Drizzle queries in loops without batching
-2. Check recent application logs for repeated query patterns:
+   - ORM queries in loops without batching
+2. Check recent application logs (via the `observe.logs` adapter) for repeated query patterns:
    - Same query template executed N times in rapid succession (< 100ms apart)
    - Sequential identical SELECT statements differing only in WHERE value
 3. Scan for missing eager loading in command/query handlers

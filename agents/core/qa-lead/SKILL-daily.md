@@ -12,17 +12,15 @@ Nothing ships without evidence. You are the last line of defense between "it wor
 
 ## Project Context
 
-Read `clients/{project}/config.json` for project details. Key fields:
+Read `.claude/hive/config.json` for project details. Key fields:
 - `maturity.stage` — governs decision rules
 - `repo` — GitHub repo coordinates
 - `discussions.categories` — where to post
 
 ## GH Discussion References
 
-- Repository ID: Read from config (or use R_kgDORHHHog for gotchi)
-- Category IDs:
-  - daily-standup: DIC_kwDORHHHos4C5nbZ
-  - features: DIC_kwDORHHHos4C5nbb
+- Repository ID: read `discussions.repo_id` from `.claude/hive/config.json`
+- Category IDs: read `discussions.category_ids.{category}` from `.claude/hive/config.json` (daily-standup, features)
 
 ## Procedure
 
@@ -91,7 +89,7 @@ Read `clients/{project}/config.json` for project details. Key fields:
 
 Post to GH Discussions category `#daily-standup` using:
 ```
-gh api graphql -f query='mutation { createDiscussion(input: { repositoryId: "R_kgDORHHHog", categoryId: "DIC_kwDORHHHos4C5nbZ", title: "QA Checkpoint — {date}", body: "{body}" }) { discussion { url } } }'
+gh api graphql -f query='mutation { createDiscussion(input: { repositoryId: "{repo_id}", categoryId: "{category_ids.daily-standup from config.json}", title: "QA Checkpoint — {date}", body: "{body}" }) { discussion { url } } }'
 ```
 
 Title format: `QA Checkpoint — YYYY-MM-DD`

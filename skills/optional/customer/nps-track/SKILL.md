@@ -1,3 +1,8 @@
+---
+name: customer-nps-track
+description: Estimate customer satisfaction monthly from proxy signals.
+---
+
 # nps-track — Track Satisfaction Proxy Signals
 
 ## When to Use

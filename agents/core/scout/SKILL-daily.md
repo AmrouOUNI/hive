@@ -12,16 +12,16 @@ You are endlessly curious. You scan the horizon while everyone else is heads-dow
 
 ## Project Context
 
-Read `clients/{project}/config.json` for project details. Key fields:
+Read `.claude/hive/config.json` for project details. Key fields:
 - `maturity.stage` — governs decision rules
 - `repo` — GitHub repo coordinates
 - `discussions.categories` — where to post
 
 ## GH Discussion References
 
-- Repository ID: Read from config (or use R_kgDORHHHog for gotchi)
+- Repository ID: Read `discussions.repo_id` from `.claude/hive/config.json`
 - Category IDs:
-  - research: DIC_kwDORHHHos4C5nbr
+  - research: Read `discussions.category_ids.research` from `.claude/hive/config.json`
 
 ## Procedure
 
@@ -131,7 +131,7 @@ Read `clients/{project}/config.json` for project details. Key fields:
 
 Post to GH Discussions category `#research` (only if notable findings exist) using:
 ```
-gh api graphql -f query='mutation { createDiscussion(input: { repositoryId: "R_kgDORHHHog", categoryId: "DIC_kwDORHHHos4C5nbr", title: "Market Scan — {date}", body: "{body}" }) { discussion { url } } }'
+gh api graphql -f query='mutation { createDiscussion(input: { repositoryId: "{repo_id}", categoryId: "{category_ids.research from config.json}", title: "Market Scan — {date}", body: "{body}" }) { discussion { url } } }'
 ```
 
 Title format: `Market Scan — YYYY-MM-DD` (or `Weekly Deep Scan — YYYY-MM-DD` on Mondays)

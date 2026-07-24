@@ -17,12 +17,12 @@
 
 ## This Week's Priorities
 1. Get hive agent definitions written
-2. Setup GH Discussion categories on gotchi repo
+2. Setup GH Discussion categories on the client repo
 3. First manual test of CTO → Obs Chief → Sr Backend loop
 
 ## Cost Watch
 | Service | Daily avg | Trend |
 |---------|-----------|-------|
 | Claude Code | TBD | — |
-| Railway | TBD | — |
-| OpenAI (Gotchi) | ~$4 | stable |
+| Infra provider | TBD | — |
+| LLM APIs | TBD | — |
