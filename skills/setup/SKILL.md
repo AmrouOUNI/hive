@@ -35,6 +35,18 @@ Do NOT assume any stack. Detect, then confirm with the user:
 
 For each adapter port the enabled agents need, propose a concrete implementation and let the user confirm or edit.
 
+### Step 2b: Detect an Existing Spec-Driven Workflow
+
+Check whether the project already uses a spec-driven development framework — the `feature-development` capability should bind to it, and agents should read ITS context files instead of inventing parallel ones.
+
+- Look for known workflow directories at the project root, e.g. `conductor/` (Conductor: `index.md`, `tracks.md`, per-track `spec.md`/`plan.md`), or any directory the user names.
+- If found, record it in `config.json` (see Step 3 `workflow` block):
+  - `framework`: the detected framework name
+  - `context_files`: where the framework keeps tech-stack / code-standards / product docs (e.g. Conductor: `conductor/tech-stack.md`, `conductor/code_styleguides/`, `conductor/product.md`) — agents read these instead of duplicating them
+  - `tracker`: the framework's work registry (e.g. `conductor/tracks.md`)
+- In Step 5, pre-fill `feature-development` with a **mode mapping** to the framework's skills if they are installed (e.g. Conductor: spec/plan → `conductor-new-track`, implement → `conductor-implement`, review → `conductor-review`, status → `conductor-status`).
+- If nothing is found, set `workflow.framework` to `null` — agents use the capability fallback (spec → plan → tasks in the issue tracker).
+
 ### Step 3: Create `.claude/hive/config.json`
 
 ```json
@@ -51,6 +63,15 @@ For each adapter port the enabled agents need, propose a concrete implementation
   "agents": {
     "core": true,
     "optional": ["{enabled optional agents}"]
+  },
+  "workflow": {
+    "framework": "{detected framework or null}",
+    "context_files": {
+      "tech_stack": "{path or null}",
+      "code_standards": "{path or null}",
+      "product": "{path or null}"
+    },
+    "tracker": "{path or null}"
   },
   "discussions": {
     "repo_id": "{resolved in Step 6}",
@@ -99,6 +120,8 @@ Write `.claude/hive/skills-map.json`:
 ```
 
 Show the mapping to the user for confirmation — they know their environment best. `null` is fine: agents fall back to the guidance in `capabilities.md`.
+
+If Step 2b detected a workflow framework whose skills are installed, use the **object (mode-mapping) form** for `feature-development` — see `protocols/capabilities.md` for the format and a Conductor example.
 
 ### Step 6: GitHub Discussions
 

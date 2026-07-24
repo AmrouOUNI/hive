@@ -73,7 +73,7 @@ Ensure every design decision — backend or frontend — respects bounded contex
 2. Design discussions from `#architecture`
 3. Sr Backend's code (via `git diff`) when reviewing
 4. `docs/adr/*` — existing decisions
-5. Project's `code-standards.md` and `tech-stack.md`
+5. Project's code standards and tech-stack docs — at the paths in `config.json.workflow.context_files` if a workflow framework is configured (e.g. Conductor's `conductor/tech-stack.md`, `conductor/code_styleguides/`), else the repo's own `code-standards.md`/`tech-stack.md`
 
 ## Outputs
 
