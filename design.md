@@ -143,8 +143,8 @@ The dispatcher is state-tracked (`.claude/hive/dispatcher-state.json`) and loop-
 
 When the client project uses a spec-driven workflow framework (declared in `config.json.workflow`, e.g. Conductor), two trackers coexist with a clear boundary:
 
-- **GH Issues** = signal intake and backlog. The dispatcher and agents create/update issues from observed signals. Prioritized, but not yet committed work.
-- **The workflow framework's registry** (e.g. `conductor/tracks.md`) = accepted, in-flight work. Only the human promotes an issue into a track — agents never create tracks on their own.
+- **GH Issues** = signal intake and backlog. The dispatcher and agents create/update issues from observed signals. Prioritized, but not yet committed work. When `capability:ticket-authoring` is mapped, issues follow its contract (numbered ACs, DoD, explicit open-question markers) — which is exactly what makes human promotion into a track cheap.
+- **The workflow framework's registry** (e.g. `conductor/tracks.md`) = accepted, in-flight work. Only the human promotes an issue into a track — agents never create tracks on their own. A `capability:ticket-implementation` provider (ticket-to-PR pipeline) picks the work up from there, with its own human plan-approval gate.
 - The Scrum Master reads the workflow registry via `capability:feature-development (status mode)` for standups and velocity; the CTO references it when dispatching to avoid double-assigning work already in a track.
 - Agents read the framework's context files (`workflow.context_files`: tech stack, code standards, product docs) instead of maintaining parallel copies.
 

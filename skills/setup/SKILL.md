@@ -114,7 +114,9 @@ Write `.claude/hive/skills-map.json`:
     "design-review": "{…}",
     "standup-summary": "{…}",
     "deploy-checklist": "{…}",
-    "feature-development": "{…}"
+    "feature-development": "{…}",
+    "ticket-authoring": "{…}",
+    "ticket-implementation": "{…}"
   }
 }
 ```

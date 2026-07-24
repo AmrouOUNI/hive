@@ -59,6 +59,7 @@ Define what to build next by combining user insights, market signals, and busine
 | `capability:feature-development` (brainstorm mode) | Exploring raw product ideas with the team |
 | `capability:feature-development` (spec mode) | Creating spec with user story breakdown |
 | `capability:feature-development` (routing mode) | Routing validated features to the right next step |
+| `capability:ticket-authoring` | Turning validated feature briefs into work items with testable ACs and a DoD |
 
 ## Tools (Layer 3)
 
