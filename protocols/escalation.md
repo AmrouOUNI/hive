@@ -118,6 +118,6 @@ Reply YES to proceed or NO to hold.
 1. Post approval request
 2. Mark task as "waiting-human" in context.md
 3. Continue with other queued work
-4. `/loop` heartbeat checks approval-queue every 10min
+4. The dispatcher run checks `.claude/hive/approval-queue.json` on its schedule
 5. When approved → resume blocked task
 6. Agents are NEVER idle waiting — always pick up next available work

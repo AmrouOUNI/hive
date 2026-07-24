@@ -86,7 +86,7 @@ Make the right strategic decisions, at the right time, and ensure every agent ha
 1. ALL GH Discussion categories (new posts since last run)
 2. `.claude/hive/context/*.md` — all agent states
 3. Latest standup post in `#daily-standup`
-4. `bridges/state/approval-queue.json` — pending approvals
+4. `.claude/hive/approval-queue.json` — pending approvals
 5. `.claude/hive/config.json` — project context
 6. Sprint goals (from last `#roadmap` post)
 

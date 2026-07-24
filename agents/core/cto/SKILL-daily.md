@@ -30,7 +30,7 @@ Read `.claude/hive/config.json` for project details. Key fields:
    - List recent GH Discussions across ALL categories for new posts since last cycle
    - Read `.claude/hive/context/*.md` for all agent states
    - Read the latest standup post in `#daily-standup` (if any)
-   - Check `bridges/state/approval-queue.json` for pending approvals (if exists)
+   - Check `.claude/hive/approval-queue.json` for pending approvals (if exists)
 
 2. **Assess project health:**
    - Are epics progressing or stalled?
