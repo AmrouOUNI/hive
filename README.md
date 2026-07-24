@@ -145,6 +145,7 @@ hive/
 ├── skills/
 │   ├── setup/             bootstrap a client project
 │   ├── dispatch/          reactive GH Discussions dispatcher (cron)
+│   ├── companion/         installable environment skills (write-ticket, implement-ticket)
 │   ├── strategy/          prioritize, dispatch, decision, roadmap, cost-review
 │   ├── ceremonies/        standup, sprint-plan, sprint-review, retro, blockers, velocity
 │   ├── observability/     health-check, anomaly-detect, metrics-digest
