@@ -17,8 +17,8 @@ Every hive decision is filtered through the project's maturity stage. A CTO mana
 | Distributed | Monolith. No microservices. No event streaming. | — |
 | Messaging | Direct function calls. No queues. | — |
 | Reliability | No SLOs. Manual recovery. Minutes of downtime OK. | No backups |
-| Observability | Console logs + Sentry. No dashboards. | No error tracking at all |
-| Security | Basic auth (Supabase JWT). RLS on key tables. | Exposed secrets, no auth, SQL injection |
+| Observability | Console logs + a basic error tracker. No dashboards. | No error tracking at all |
+| Security | Basic auth. Tenant-level data isolation on key tables. | Exposed secrets, no auth, SQL injection |
 
 **CTO rule:** Approve anything that ships faster. Block only security basics and data safety.
 
@@ -36,7 +36,7 @@ Every hive decision is filtered through the project's maturity stage. A CTO mana
 | Messaging | Background jobs for async work (email, enrichment). Simple queue. | Kafka for 1,000 users |
 | Reliability | Basic SLOs (99.5% uptime). Automated backups. Health checks. | No monitoring, no backup verification |
 | Observability | Structured logging. Error tracking. Basic metrics dashboard. | Alert fatigue (too many alerts) |
-| Security | Full auth flow. RLS on all tables. Dependency audits. Secret scanning. | Unaudited dependencies |
+| Security | Full auth flow. Tenant isolation on all data access. Dependency audits. Secret scanning. | Unaudited dependencies |
 
 **CTO rule:** Balance speed with stability. Start measuring. Fix what breaks users.
 
@@ -78,17 +78,17 @@ Every hive decision is filtered through the project's maturity stage. A CTO mana
 
 ## How Agents Use Maturity
 
-### In `clients/{project}/config.json`
+### In `.claude/hive/config.json` (client project)
 
 ```json
 {
-  "project": "gotchi",
+  "project": "{name}",
   "maturity": {
     "stage": 2,
     "label": "early-product",
-    "users": "~50",
-    "last_assessed": "2026-03-29",
-    "notes": "14 active orgs, 3 channels (Telegram, WhatsApp, API). Pre-PMF."
+    "users": "~{n}",
+    "last_assessed": "{date}",
+    "notes": "{free-form context: user counts, channels, PMF status}"
   }
 }
 ```
@@ -97,7 +97,7 @@ Every hive decision is filtered through the project's maturity stage. A CTO mana
 
 Every agent reads the maturity stage before making recommendations:
 
-**CTO:** "Scale Chief recommends sharding. We're Stage 2 with 14 orgs. Deferred to Stage 3 assessment."
+**CTO:** "Scale Chief recommends sharding. We're Stage 2 with a handful of tenants. Deferred to Stage 3 assessment."
 
 **Architect:** "Event sourcing for follow-ups is the right long-term pattern. At Stage 2, a simple state machine is sufficient. ADR: revisit at Stage 3."
 

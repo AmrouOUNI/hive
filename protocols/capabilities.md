@@ -33,7 +33,7 @@ This is the same ports & adapters idea as `protocols/adapters.md`, applied to sk
 | `documentation` | Write/maintain docs, runbooks, changelogs | devrel | `engineering:documentation` | Audience-first structure; keep close to code; verify examples run |
 | `standup-summary` | Compile activity into a standup format | scrum-master | `engineering:standup` | Yesterday / today / blockers from git log, issues, and discussions |
 | `deploy-checklist` | Pre-deployment verification | devops | `engineering:deploy-checklist` | Verify CI green, migrations reviewed, rollback path, monitoring in place |
-| `feature-development` | The client's own dev workflow (brainstorm → spec → plan → implement) | cto, product-chief, sr-backend | project workflow skills (e.g. conductor, kitt-style trackers, superpowers) | Break work into spec → plan → tasks in the issue tracker |
+| `feature-development` | The client's own dev workflow (brainstorm → spec → plan → implement) | cto, product-chief, sr-backend | the project's own workflow/spec-driven skills, if any | Break work into spec → plan → tasks in the issue tracker |
 
 ## skills-map.json Format
 

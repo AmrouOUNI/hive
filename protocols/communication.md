@@ -39,7 +39,7 @@ requires: info | review | approval | action
 | DISAGREE | "Counter: {reason + alternative}" |
 | ADD CONTEXT | "Additional data: {evidence}" |
 | CLAIM TASK | "I'll handle this. ETA: {estimate}" |
-| ESCALATE | "Needs human input. @clementbacle" |
+| ESCALATE | "Needs human input. @{human.github_handle from config.json}" |
 
 ## Labels (applied by CTO or Scrum Master)
 
@@ -69,8 +69,8 @@ requires: info | review | approval | action
 |-------|---------|-------------|
 | 0 — AUTONOMOUS | Agent decides, posts as INFO | GH only |
 | 1 — AGENT CONSENSUS | Propose → 2+ agents agree → proceed | GH only |
-| 2 — CTO DECIDES | Propose → CTO reviews → approve/reject | GH + Telegram |
-| 3 — HUMAN APPROVES | Propose → CTO recommends → human decides | GH + Telegram + Email |
+| 2 — CTO DECIDES | Propose → CTO reviews → approve/reject | GH + `notify.primary` |
+| 3 — HUMAN APPROVES | Propose → CTO recommends → human decides | GH + `notify.primary` + `notify.email` |
 
 ## Cross-References
 
@@ -83,7 +83,7 @@ Discussion:       gh:discussions/{category}/{id}
 ADR:              docs:adr/{number}-{slug}
 Sprint goal:      gh:discussions/roadmap/{id}
 Ceremony:         ceremony:{daily|weekly|monthly}/{name}
-Client skill:     skill:{project}/{name}
+Capability:       capability:{name}
 Hive skill:       hive:{category}/{name}
 ```
 

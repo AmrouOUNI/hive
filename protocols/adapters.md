@@ -2,7 +2,7 @@
 
 ## What Are Adapters
 
-Adapters connect project-agnostic agents to project-specific tools. An agent says WHAT to check (e.g., "read production logs"), the adapter says HOW (e.g., "run `railway logs --json`").
+Adapters connect project-agnostic agents to project-specific tools. An agent says WHAT to check (e.g., "read production logs"), the adapter says HOW (the concrete CLI command or API call of whatever hosting/monitoring stack the project uses).
 
 ## Architecture
 
@@ -10,7 +10,7 @@ Adapters connect project-agnostic agents to project-specific tools. An agent say
 HIVE (this repo)                          CLIENT PROJECT (.claude/hive/)
 ━━━━━━━━━━━━━━━━                          ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-agents/obs-chief/AGENT.md                 .claude/hive/adapters/
+agents/core/obs-chief/AGENT.md            .claude/hive/adapters/
   "use adapter:observe.logs"                observe-logs.md
   "use adapter:observe.errors"              observe-errors.md
                                             ...
@@ -25,7 +25,7 @@ skills/setup/SKILL.md
 ## Why Adapters Live in the Client Project
 
 1. **Security** — adapters reference env vars, API keys, connection strings. Never in a shared repo.
-2. **Project-specific** — gotchi uses Railway, another project might use Vercel. Same agent, different adapter.
+2. **Project-specific** — one project deploys on Railway, another on Vercel, a third on Kubernetes. Same agent, different adapter.
 3. **Gitignored if needed** — adapters with secrets can be gitignored, templates checked in.
 
 ## Adapter Port Registry
@@ -98,15 +98,21 @@ Each port defines: name, purpose, what the agent expects back, and required fiel
 - **Expected output**: Feedback scores, themes, trends
 - **Required fields**: `source`, `query` or `command`
 
-### notify.telegram
-- **Purpose**: Send notifications to human
-- **Used by**: CTO (approvals), Obs Chief (critical alerts)
-- **Required fields**: `token` (env var), `chat_id` (env var)
+### notify.primary
+- **Purpose**: Send notifications to the human on their primary chat channel (Slack, Telegram, Discord, …)
+- **Used by**: CTO (approvals), Obs Chief (critical alerts), Scrum Master (reminders)
+- **Required fields**: `tool`, `command` or `api_endpoint` (credentials via env vars)
 
 ### notify.email
 - **Purpose**: Send email notifications
-- **Used by**: Account Mgr (outreach drafts, with human approval)
+- **Used by**: Account Mgr (outreach drafts, with human approval), escalation Level 2+
 - **Required fields**: `tool`, `api_key` (env var), `from`, `to`
+
+### notify.urgent
+- **Purpose**: Reach the human on a high-urgency channel (SMS, phone, pager) — Level 3 escalations only
+- **Used by**: Escalation protocol
+- **Required fields**: `tool`, `command` or `api_endpoint`
+- **Optional**: may be left unconfigured; escalation then stops at notify.primary + notify.email
 
 ### build.*
 - **Purpose**: Run build/test/lint commands
@@ -121,21 +127,22 @@ Each adapter is a markdown file in `.claude/hive/adapters/`:
 # observe-logs
 
 ## Tool
-railway
+{tool name — e.g. your hosting provider's CLI}
 
 ## Command
-railway logs --json --last {period}
+{command that returns recent logs — e.g. `<hosting-cli> logs --json --last {period}`}
 
 ## Environment Variables
-- RAILWAY_TOKEN
+- {VAR_NAME} — {what it is}
 
 ## Output Format
-JSON lines with: timestamp, level, message, metadata
+{what the agent should expect — e.g. JSON lines with timestamp, level, message}
 
 ## Notes
-Requires `railway` CLI installed and linked to the gotchi project.
-Run `railway link` to set up.
+{prerequisites: CLI installed, project linked, auth done}
 ```
+
+Example implementations for the same port across stacks: `railway logs --json` (Railway), `vercel logs` (Vercel), `kubectl logs` (Kubernetes), `heroku logs --tail` (Heroku). The agent never knows which one it is.
 
 ## Setup
 
